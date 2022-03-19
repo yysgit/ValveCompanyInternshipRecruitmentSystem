@@ -198,6 +198,15 @@ export default [
         },
         component: () => import('@/view/sys/systemManagement/icon.vue')
       },
+      {
+        path: 'sys/jobSearch',
+        name: 'sys/jobSearch',
+        meta: {
+          icon: 'md-arrow-dropdown-circle',
+          title: '求职搜索'
+        },
+        component: () => import('@/view/sys/systemManagement/jobSearch.vue')
+      },
     ]
   },
 

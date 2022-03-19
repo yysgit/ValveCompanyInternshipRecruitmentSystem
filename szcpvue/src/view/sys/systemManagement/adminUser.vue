@@ -2,13 +2,7 @@
   <div>
     <div style="min-width:1000px">
       <Card shadow>
-        <div class="split-pane-page-wrapper">
-          <split-pane v-model="offset" @on-moving="handleMoving">
-            <div slot="left" class="pane left-pane">
-              <Tree :loading="loadingTable" :data="data1" @on-select-change="selectChange"></Tree>
-            </div>
-            <div slot="right" class="pane right-pane">
-
+        <div>
               <!--添加用户-->
               <Button v-if="buttonVerifAuthention('sys:admin:addAdminUser')" type="primary" icon="md-add"
                       @click="addClick"
@@ -21,7 +15,7 @@
                       style="margin-bottom: 10px;margin-right: 10px;">显示全部用户
               </Button>
               <!--菜单表格-->
-              <Table ref="tables" width="1200px" stripe border :loading="loading" :data="tableData" :columns="columns">
+              <Table ref="tables"  stripe border :loading="loading" :data="tableData" :columns="columns">
               </Table>
               <Page :total="totalPage" show-total :styles="stylePage" @on-change="changePage"/>
 
@@ -52,9 +46,9 @@
                       </Option>
                     </Select>
                   </FormItem>
-                  <FormItem label="分成利率(%)" prop="interestRate">
+                  <!-- <FormItem label="分成利率(%)" prop="interestRate">
                     <Input type="text" v-model="formValidateAdd.interestRate" placeholder="请输入分成利率(运营部请输入0)"></Input>
-                  </FormItem>
+                  </FormItem> -->
 
                 </Form>
                 <div slot="footer">
@@ -87,9 +81,9 @@
                       </Option>
                     </Select>
                   </FormItem>
-                  <FormItem label="分成利率(%)" prop="interestRate">
+                  <!-- <FormItem label="分成利率(%)" prop="interestRate">
                     <Input type="text" v-model="formValidateEdit.interestRate" placeholder="请输入分成利率(运营部请输入0)"></Input>
-                  </FormItem>
+                  </FormItem> -->
 
 
                 </Form>
@@ -98,8 +92,6 @@
                   <Button type="primary" size="large" @click="editAdminUserClick" :loading="loadingModel">确定</Button>
                 </div>
               </Modal>
-            </div>
-          </split-pane>
         </div>
       </Card>
     </div>
@@ -190,10 +182,10 @@
           roleId: [
             {required: true, message: '请选择角色', trigger: 'blur'},
           ],
-          interestRate: [
-            {required: true, message: '请输入利率', trigger: 'blur'},
-            {validator: isInteger2, trigger: 'blur'}
-          ],
+          // interestRate: [
+          //   {required: true, message: '请输入利率', trigger: 'blur'},
+          //   {validator: isInteger2, trigger: 'blur'}
+          // ],
         },
 
         //编辑表单验证
@@ -223,32 +215,31 @@
           roleId: [
             {required: true, message: '请选择角色', trigger: 'blur'},
           ],
-          interestRate: [
-            {required: true, message: '请输入利率', trigger: 'blur'},
-            {validator: isInteger2, trigger: 'blur'}
-          ],
+          // interestRate: [
+          //   {required: true, message: '请输入利率', trigger: 'blur'},
+          //   {validator: isInteger2, trigger: 'blur'}
+          // ],
         },
 
         columns: [
           {
             type: 'index2',
-            width: 60,
+            width: 70,
             title: '序号',
             align: 'center',
             render: (h, params) => {
               return h('span', params.index + (this.currentPage - 1) * this.fetchNum + 1);
             }
           },
-          {title: '用户名', width: 150, align: "center", key: 'adminName'},
-          {title: '姓名', width: 200, align: "center", key: 'adminFullname'},
-          {title: '手机', width: 120, align: "center", key: 'adminPhone'},
-          {title: '机构', width: 150, align: "center", key: 'organName'},
-          {title: '角色', width: 100, align: "center", key: 'roleName'},
+          {title: '用户名', align: "center", key: 'adminName'},
+          {title: '姓名', align: "center", key: 'adminFullname'},
+          {title: '手机', align: "center", key: 'adminPhone'},
+          {title: '机构', align: "center", key: 'organName'},
+          {title: '角色', align: "center", key: 'roleName'},
           {
             title: '操作',
             key: 'handle',
             align: 'left',
-            width: 220,
             render: (h, params) => {
               return h('div', [
                 (() => {
