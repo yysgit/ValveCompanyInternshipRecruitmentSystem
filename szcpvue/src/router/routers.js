@@ -17,11 +17,15 @@ import Main from '@/components/main'
  */
 
 export default [
+
   {
     path: '/',
-    name: '首页',
-   // component: () => import('@/webview/index/home.vue'),
-    redirect: '/md'
+    name: 'sys/login',
+    meta: {
+      title: 'Login - 登录',
+      hideInMenu: true
+    },
+    component: () => import('@/view/login/login.vue')
   },
 
   {
@@ -196,4 +200,5 @@ export default [
       },
     ]
   },
+
 ]

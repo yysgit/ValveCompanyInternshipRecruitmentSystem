@@ -5,10 +5,10 @@
 <template>
   <div class="login">
     <div class="login-con">
-      <Card icon="log-in" title="全栈九九六" :bordered="false">
+      <Card icon="log-in" title="Valve公司实习招聘系统" :bordered="false">
         <div class="form-con">
-          <login-form @on-success-valid="handleSubmit"></login-form>
-          <p class="login-tip" style="color: green">全栈九九六工作室</p>
+          <login-form @on-success-valid="handleSubmit" @on-success-register="handleRegister"></login-form>
+          <p class="login-tip" style="color: green">Valve公司实习招聘系统</p>
         </div>
       </Card>
     </div>
@@ -48,6 +48,23 @@
       },
       handleSubmit({username, password, vcode}) {
 
+        this.handleLogin({username, password, vcode}).then(res => {
+          // console.log("login请求:" + res);
+          if(res.code==200){
+            this.getUserInfo().then(res => {
+              // console.log(this.$config.homeName)
+              this.$router.push({
+                name: this.$config.homeName
+              })
+            })
+          }
+        })
+      },
+      /**
+       * 注册
+       */
+      handleRegister(value) {
+        console.log(value,123);
         this.handleLogin({username, password, vcode}).then(res => {
           // console.log("login请求:" + res);
           if(res.code==200){
