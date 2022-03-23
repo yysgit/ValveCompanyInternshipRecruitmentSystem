@@ -21,10 +21,10 @@ import 'babel-polyfill'
 import Es6Promise from 'es6-promise'
 require('es6-promise').polyfill()
 Es6Promise.polyfill()
-
-
+const DC = require('@/assets/node/full-citys.js');
 
 Vue.prototype.$axios = axios
+Vue.prototype.DC = DC
 
  
 

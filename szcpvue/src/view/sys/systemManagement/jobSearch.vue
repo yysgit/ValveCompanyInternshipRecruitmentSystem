@@ -3,8 +3,8 @@
     <div style="min-width:1000px">
       <Card shadow>
         <!--添加工作-->
+        <!-- v-if="buttonVerifAuthention('sys:fundInfo:addFundInfo')" -->
         <Button
-          v-if="buttonVerifAuthention('sys:fundInfo:addFundInfo')"
           type="primary"
           icon="md-add"
           @click="addFundInfoButton"
@@ -20,18 +20,7 @@
           </Col>
           <Col span="4" style="margin-right: 10px;">
             <Select v-model="model2" clearable style="width:200px" placeholder="职位类型">
-              <Option v-for="item in jobTypeList" :value="item.value" :key="item.value">{{ item.label }}</Option>
-            </Select>
-          </Col>
-          <Col span="4" style="margin-right: 10px;" >
-            <Select v-model="model3" clearable style="width:200px" placeholder="学历要求">
-              <Option v-for="item in eduTypeList" :value="item.value" :key="item.value">{{ item.label }}</Option>
-            </Select>
-          </Col>
-
-          <Col span="4" style="margin-right: 10px;" >
-            <Select v-model="model4" clearable style="width:200px" placeholder="薪资要求">
-              <Option v-for="item in salaryTypeList" :value="item.value" :key="item.value">{{ item.label }}</Option>
+              <Option v-for="item in jobStyle" :value="item.value" :key="item.value">{{ item.label }}</Option>
             </Select>
           </Col>
 
@@ -64,77 +53,60 @@
             :model="formValidateFundTypeAdd"
             :label-width="120"
           >
-            <FormItem label="岗位名称" prop="remark">
+            <FormItem label="岗位名称" prop="postName">
               <Input
                 type="textarea"
                 :autosize="{minRows: 2,maxRows: 5}"
-                v-model="formValidateFundTypeAdd.remark"
-                placeholder="请输入岗位名称"
+                v-model="formValidateFundTypeAdd.postName"
               ></Input>
             </FormItem>
-            <FormItem label="工作区域" prop="title">
-              <Select v-model="formValidateFundTypeAdd.type1" placeholder="工作区域" clearable>
+            <FormItem label="年薪" prop="postAnnualSalary">
+              <Input
+                v-model="formValidateFundTypeAdd.postAnnualSalary"
+              ></Input>
+            </FormItem>
+            <FormItem label="职位类型" prop="postType">
+              <Select v-model="formValidateFundTypeAdd.postType">
+                <Option v-for="(item, index) in jobStyle" :key="index" v-text="item.label"
+                        :value="item.value+''">{{item.label}}
+                </Option>
+              </Select>
+            </FormItem>
+            <FormItem label="学历" prop="postEducation">
+              <Input v-model="formValidateFundTypeAdd.postEducation"></Input>
+            </FormItem>
+
+            <FormItem label="职位简介" prop="postProfile">
+              <Input
+                type="textarea"
+                :autosize="{minRows: 2,maxRows: 5}"
+                v-model="formValidateFundTypeAdd.postProfile"
+              ></Input>
+            </FormItem>
+
+            <FormItem label="工作地区" prop="companyRegion">
+              <Select v-model="formValidateFundTypeAdd.companyRegion"  clearable>
                 <Option v-for="item in cityList" :value="item.value" :key="item.value">{{ item.label }}</Option>
               </Select>
             </FormItem>
-            <FormItem label="职位类型" prop="title">
-              <Select v-model="formValidateFundTypeAdd.type2" placeholder="职位类型" clearable>
-                <Option v-for="item in jobTypeList" :value="item.value" :key="item.value">{{ item.label }}</Option>
-              </Select>
-            </FormItem>
-            <FormItem label="学历要求" prop="title">
-              <Select v-model="formValidateFundTypeAdd.typ3" placeholder="学历要求" clearable>
-                <Option v-for="item in eduTypeList" :value="item.value" :key="item.value">{{ item.label }}</Option>
-              </Select>
-            </FormItem>
-            <FormItem label="薪资要求" prop="title">
-              <Select v-model="formValidateFundTypeAdd.salaryTypeList" placeholder="薪资要求" clearable>
-                <Option v-for="item in salaryTypeList" :value="item.value" :key="item.value">{{ item.label }}</Option>
-              </Select>
-            </FormItem>
 
-            <FormItem label="职位描述" prop="remark">
+            <FormItem label="详细地址" prop="companyAddress">
               <Input
                 type="textarea"
                 :autosize="{minRows: 2,maxRows: 5}"
-                v-model="formValidateFundTypeAdd.remark"
-                placeholder="请输入职位描述"
+                v-model="formValidateFundTypeAdd.companyAddress"
               ></Input>
             </FormItem>
 
-            <FormItem label="岗位职责" prop="remark">
-              <Input
-                type="textarea"
-                :autosize="{minRows: 2,maxRows: 5}"
-                v-model="formValidateFundTypeAdd.remark"
-                placeholder="请输入岗位职责"
-              ></Input>
+            <FormItem label="公司名称" prop="companyName">
+              <Input v-model="formValidateFundTypeAdd.companyName"></Input>
             </FormItem>
 
-            <FormItem label="任职要求" prop="remark">
+            <FormItem label="公司简介" prop="companyProfile">
               <Input
                 type="textarea"
                 :autosize="{minRows: 2,maxRows: 5}"
-                v-model="formValidateFundTypeAdd.remark"
-                placeholder="请输入任职要求"
-              ></Input>
-            </FormItem>
-            
-            <FormItem label="职位福利" prop="remark">
-              <Input
-                type="textarea"
-                :autosize="{minRows: 2,maxRows: 5}"
-                v-model="formValidateFundTypeAdd.remark"
-                placeholder="请输入职位福利"
-              ></Input>
-            </FormItem>
-
-            <FormItem label="工作地点" prop="remark">
-              <Input
-                type="textarea"
-                :autosize="{minRows: 2,maxRows: 5}"
-                v-model="formValidateFundTypeAdd.remark"
-                placeholder="请输工作地点"
+                v-model="formValidateFundTypeAdd.companyProfile"
               ></Input>
             </FormItem>
 
@@ -164,19 +136,8 @@ export default {
       model4:"",
       cityList: [
         {value: 'beijing', label: '北京市'}, 
-        {value: 'shanghai', label: '上海市'}, 
-        {value: 'guangzhou', label: '广州市'}, 
       ],
-      jobTypeList: [
-        {value: '0', label: '不限'}, 
-        {value: '1', label: '销售/商务拓展'}, 
-        {value: '2', label: '人事/行政/财务/法务'}, 
-        {value: '3', label: '金融/保险'}, 
-        {value: '4', label: '房地产/工程/建筑'}, 
-        {value: '5', label: '影视传媒'}, 
-        {value: '6', label: '互联网/通信及硬件'}, 
-        {value: '7', label: '农业/能源/环保'}, 
-      ],
+      jobStyle:[], //工作类型
       eduTypeList: [
         {value: '0', label: '不限'}, 
         {value: '1', label: '初中及以下'}, 
@@ -211,10 +172,14 @@ export default {
       //工作数据
       formValidateFundTypeAdd: {
         id: "",
-        title: "",
-        type: "",
-        remark: "",
-        sorting: ""
+        postName: "", //岗位名称
+        postAnnualSalary: "", //年薪
+        postEducation: "", //学历
+        postProfile: "", //职位简介
+        companyAddress: "", //详细地址
+        companyRegion: "", //地区
+        companyName: "", //公司名称
+        companyProfile: "", //公司简介
       },
       //表单验证
       modalFundInfoEdit: false,
@@ -326,10 +291,12 @@ export default {
     };
   },
   created() {
-    // this.queryList();
+    this.init();
+    this.jobStyle = this.$store.state.user.jobTypeList;
   },
   methods: {
     ...mapActions([
+      
       // "addFundInfo",
       // "getFundInfoList",
       // "getFundTypeListByType",
@@ -338,6 +305,21 @@ export default {
     ]),
     buttonVerifAuthention(perms) {
       return permsVerifAuthention(perms, this.$store.state.user.authentionList);
+    },
+    init(){
+      console.log(DC,12121)
+      var provs = DC.getProvs();
+      var _provs = [];
+      for (let i = 0; i < provs.length; i++) {
+        const ele = provs[i];
+        let _obj = {
+          value:ele.name,
+          label:ele.name,
+        }
+        _provs.push(_obj);
+      }
+      console.log(_provs);
+      this.cityList = _provs;
     },
     //分页改变
     changePage(page) {
@@ -371,7 +353,7 @@ export default {
      * 添加数据提交
      */
     addFundTypeClick(){
-
+      console.log(this.formValidateFundTypeAdd);
     },
 
     //删除文章菜单

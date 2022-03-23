@@ -68,14 +68,14 @@
        */
       handleRegisterPage(value) {
         console.log(value,"请求接口了");
-        let _obj = {
+        let adminUser = {
           phone:value.phone,//手机号（用户名）
           fullname:value.reusername,//真实姓名
           username:value.phone,//用户名
           password:value.passwdCheck,//密码
         }
-        console.log(_obj);
-        this.handleRegister(_obj).then(res => {
+        console.log(adminUser);
+        this.handleRegister({adminUser}).then(res => {
           // console.log("login请求:" + res);
           if(res.code==200){
             // this.getUserInfo().then(res => {
