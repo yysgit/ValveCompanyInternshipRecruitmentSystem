@@ -13,6 +13,7 @@ import {
   editPasswordAdminUserById,
   getMessage,
   getHomeData,
+  userRegister,
 
 } from '@/api/user'
 import { setToken, getToken } from '@/libs/util'
@@ -165,6 +166,7 @@ export default {
 
     // 登录
     handleLogin({ commit }, { username, password, vcode }) {
+      console.log(username, password, vcode,'登录参数')
       username = username.trim()
       return new Promise((resolve, reject) => {
         // console.log(username, password);
@@ -174,6 +176,23 @@ export default {
           vcode
         }).then(res => {
 
+          const data = res.data;
+          if (data.code == 200) {
+            commit('setToken', data.msg)
+          }
+          resolve(data)
+        }).catch(err => {
+          reject(err)
+        })
+      })
+    },
+
+    //注册
+    handleRegister ({ commit }, value) {
+      return new Promise((resolve, reject) => {
+        userRegister(
+          value
+          ).then(res => {
           const data = res.data;
           if (data.code == 200) {
             commit('setToken', data.msg)

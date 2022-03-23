@@ -202,7 +202,7 @@ export default [
         path: 'sys/jobSearch',
         name: 'sys/jobSearch',
         meta: {
-          icon: 'md-arrow-dropdown-circle',
+          icon: 'md-list',
           title: '求职搜索'
         },
         component: () => import('@/view/sys/systemManagement/jobSearch.vue')

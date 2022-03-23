@@ -12,6 +12,14 @@ export const login = ({ username, password,vcode }) => {
     method: 'post'
   })
 }
+export const userRegister = (data) => {
+  console.log(data,"注册接口数据")
+  return axios.request({
+    url: 'sys/admin/registerUser',
+    data,
+    method: 'post'
+  })
+}
 
 export const getVcode = () => {
   return axios.request({
@@ -335,6 +343,7 @@ export const restoreTrash = msg_id => {
     }
   })
 }
+
 
 
 

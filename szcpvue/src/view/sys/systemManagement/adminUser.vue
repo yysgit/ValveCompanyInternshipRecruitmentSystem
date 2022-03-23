@@ -10,10 +10,10 @@
               </Button>
 
               <!--显示全部用户-->
-              <Button v-if="buttonVerifAuthention('sys:role:allList') && level!=2" type="primary"
+              <!-- <Button v-if="buttonVerifAuthention('sys:role:allList') && level!=2" type="primary"
                       @click="queryAdminUserAllClick"
                       style="margin-bottom: 10px;margin-right: 10px;">显示全部用户
-              </Button>
+              </Button> -->
               <!--菜单表格-->
               <Table ref="tables"  stripe border :loading="loading" :data="tableData" :columns="columns">
               </Table>
