@@ -47,7 +47,7 @@
         <Page :total="totalPage" show-total :styles="stylePage" @on-change="changePage" />
 
         <!--添加工作弹出框-->
-        <Modal v-model="modalFundInfoAdd" title="添加工作" :mask-closable="false">
+        <Modal v-model="modalFundInfoAdd" title="发布工作" :mask-closable="false">
           <Form
             ref="formValidateFundTypeAdd"
             :model="formValidateFundTypeAdd"
@@ -108,6 +108,9 @@
                 :autosize="{minRows: 2,maxRows: 5}"
                 v-model="formValidateFundTypeAdd.companyProfile"
               ></Input>
+            </FormItem>
+            <FormItem label="公司邮箱" prop="companyMailbox">
+              <Input v-model="formValidateFundTypeAdd.companyMailbox"></Input>
             </FormItem>
 
           </Form>
@@ -174,12 +177,14 @@ export default {
         id: "",
         postName: "", //岗位名称
         postAnnualSalary: "", //年薪
+        postType:"",   //职位类型
         postEducation: "", //学历
         postProfile: "", //职位简介
         companyAddress: "", //详细地址
         companyRegion: "", //地区
         companyName: "", //公司名称
         companyProfile: "", //公司简介
+        companyMailbox: "", //公司邮箱
       },
       //表单验证
       modalFundInfoEdit: false,
@@ -296,18 +301,13 @@ export default {
   },
   methods: {
     ...mapActions([
-      
-      // "addFundInfo",
-      // "getFundInfoList",
-      // "getFundTypeListByType",
-      // "deleteFundInfoById",
-      // "editFundInfoById"
+      "addJobSearchType"
     ]),
     buttonVerifAuthention(perms) {
       return permsVerifAuthention(perms, this.$store.state.user.authentionList);
     },
     init(){
-      console.log(DC,12121)
+      console.log(mapActions)
       var provs = DC.getProvs();
       var _provs = [];
       for (let i = 0; i < provs.length; i++) {
@@ -318,7 +318,6 @@ export default {
         }
         _provs.push(_obj);
       }
-      console.log(_provs);
       this.cityList = _provs;
     },
     //分页改变
@@ -354,6 +353,52 @@ export default {
      */
     addFundTypeClick(){
       console.log(this.formValidateFundTypeAdd);
+        // postName: "", //岗位名称
+        // postAnnualSalary: "", //年薪
+        //postType:"",   //职位类型
+        // postEducation: "", //学历
+        // postProfile: "", //职位简介
+        // companyAddress: "", //详细地址
+        // companyRegion: "", //地区
+        // companyName: "", //公司名称
+        // companyProfile: "", //公司简介
+        // companyMailbox: "", //公司邮箱
+
+      let fundType = {
+        "postName":this.formValidateFundTypeAdd.postName,//岗位名称
+        "postAnnualAalary":this.formValidateFundTypeAdd.postAnnualSalary, //年薪
+        "postType":this.formValidateFundTypeAdd.postType,
+        "postEducation":this.formValidateFundTypeAdd.postEducation,
+        "postProfile":this.formValidateFundTypeAdd.postProfile,
+        "companyAddress":this.formValidateFundTypeAdd.companyAddress,
+        "companyRegion":this.formValidateFundTypeAdd.companyRegion,
+        "companyName":this.formValidateFundTypeAdd.companyName,
+        "companyProfile":this.formValidateFundTypeAdd.companyProfile,
+        "companyMailbox":this.formValidateFundTypeAdd.companyMailbox,
+      }
+      
+      this.addJobSearchType({fundType}).then(res => {
+        console.log(res,'添加返回')
+      });
+
+      // this.addOrganChild({fundType}).then(res => {
+
+      //     this.loadingModel=false;//关闭提交按钮转圈
+      //     this.modal7 = false;//关闭弹窗
+      //     //情况表单数据
+      //     this.formValidate = {
+      //       id:'',
+      //       organName: '',
+      //       organRemake: '',
+      //       sorting: '',
+      //       parentId:0
+      //     };
+      //     //刷新菜单页面
+      //     this.queryList();
+
+      // })
+
+
     },
 
     //删除文章菜单
