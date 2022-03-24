@@ -80,6 +80,15 @@
           </span>
         </Input>
       </FormItem>
+      <FormItem prop="roleId">
+        <Select v-model="formRregister.roleId" placeholder="角色" clearable>
+          <Option
+            v-for="item in roleIdData"
+            :value="item.id"
+            :key="item.id"
+          >{{ item.title }}</Option>
+        </Select>
+      </FormItem>
       <FormItem>
         <Button @click="handleSubmitRregister" type="primary" long>注册</Button>
       </FormItem>
@@ -127,17 +136,25 @@ export default {
       }
     };
     return {
+      roleIdData:[{
+        id:2,
+        title:'公司管理员'
+      },{
+        id:4,
+        title:'应聘者'
+      }],
       form: {
         username: "",
         password: "",
         vcode: "45",
       },
       formRregister: {
-        phone: "18538777123",
+        phone: "",
         phoneNo: "",
-        reusername: "admin1234",
-        passwd: "12345",
-        passwdCheck: "12345",
+        reusername: "",
+        passwd: "",
+        passwdCheck: "",
+        roleId: 4,
       },
       vcode: baseUrl.dev + "/sys/vcode",
       showFormRule: "1",
@@ -182,7 +199,12 @@ export default {
     handleSubmitRregister() {
       this.$refs.loginFormRegister.validate((valid) => {
         if (valid) {
+          if(this.form.passwdCheck!=this.form.passwd){
+            this.$Message.error("两次密码不一致!")
+            return;
+          }
           this.$emit('on-success-register', this.formRregister);
+          this.goLogin('1');
         }
       });
     },

@@ -71,6 +71,9 @@ public class JwtInterceptor implements HandlerInterceptor {
         if (myUrl.contains("fund/")) {
             return true;
         }
+        if (myUrl.contains("sys/admin/registerUser")) {
+            return true;
+        }
         if (myUrl.contains("findArticleMenuToArticleListForHome")
                 || myUrl.contains("markdown")
                 || myUrl.contains("sys/article/findArticleListByName")

@@ -23,6 +23,7 @@ class HttpRequest {
   }
 
   getInsideConfig() {
+    console.log("store.state.user.token",store.state.user.token)
     const config = {
       baseURL: this.baseUrl,
       headers: {
@@ -88,6 +89,7 @@ class HttpRequest {
       return res;
     }, error => {
       this.destroy(url)
+      console.log(error);
       let errorInfo = error.response
       if (!errorInfo) {
         const {request: {statusText, status}, config} = JSON.parse(JSON.stringify(error))

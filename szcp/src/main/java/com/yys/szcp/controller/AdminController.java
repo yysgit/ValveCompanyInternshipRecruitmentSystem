@@ -7,11 +7,11 @@ import com.yys.szcp.config.jwt.JwtUtils;
 import com.yys.szcp.constant.ExceptionConstant;
 import com.yys.szcp.entity.DbAdminUser;
 import com.yys.szcp.entity.DbMenu;
-import com.yys.szcp.entity.DbOrgan;
+
 import com.yys.szcp.entityVo.MenuTreeUtil;
 import com.yys.szcp.service.DbAdminUserService;
 import com.yys.szcp.service.DbMenuService;
-import com.yys.szcp.service.DbOrganService;
+
 import com.yys.szcp.utils.MD5;
 import com.yys.szcp.utils.ResultUtil;
 import com.yys.szcp.utils.StringISNULLUtil;
@@ -39,8 +39,6 @@ public class AdminController {
     private JwtEntity jwtEntity;
     @Autowired
     private DbMenuService menuService;
-    @Autowired
-    private DbOrganService organService;
 
     /**
      * 管理员登陆
@@ -75,7 +73,7 @@ public class AdminController {
                 return ResultUtil.error("用户名或者密码错误!");
             }
         } catch (Exception e) {
-
+            e.printStackTrace();
             logger.error("登陆异常:" + e);
             return ResultUtil.error("登陆异常!");
         }
@@ -99,12 +97,49 @@ public class AdminController {
             map.put("authentionList", list);
             return ResultUtil.success(map);
         } catch (Exception e) {
-
+            e.printStackTrace();
             logger.error("得到用户信息异常:" + e);
             return ResultUtil.error("得到用户信息异常!");
         }
     }
+    /**
+     * 添加管理用户
+     *
+     * @param request
+     * @return
+     */
+    @RequestMapping("/registerUser")
+    @ResponseBody
+    public ResultUtil registerUser(HttpServletRequest request, String adminUser) {
+        try {
 
+            //封装数据
+            Map adminUser1 = (Map) JSONUtils.parse(adminUser);
+            DbAdminUser adminUserMy = new DbAdminUser();
+            adminUserMy.setAdminName(StringISNULLUtil.mapToString(adminUser1.get("username")));
+            adminUserMy.setAdminFullname(StringISNULLUtil.mapToString(adminUser1.get("fullname")));
+            adminUserMy.setAdminPhone(StringISNULLUtil.mapToString(adminUser1.get("phone")));
+            adminUserMy.setRoleId(StringISNULLUtil.mapToInteger(adminUser1.get("roleId")));
+            adminUserMy.setAdminPassword(MD5.MD5Pwd(adminUserMy.getAdminName(), StringISNULLUtil.mapToString(adminUser1.get("password"))));
+            adminUserMy.setAge(StringISNULLUtil.mapToString(adminUser1.get("age")));
+            adminUserMy.setEducation(StringISNULLUtil.mapToString(adminUser1.get("education")));
+            adminUserMy.setSchool(StringISNULLUtil.mapToString(adminUser1.get("school")));
+            adminUserMy.setSubject(StringISNULLUtil.mapToString(adminUser1.get("subject")));
+            adminUserMy.setSuperiorUserId(StringISNULLUtil.mapToInteger(adminUser1.get("superiorUserId")));
+
+            //验证名称是否重复
+            List<DbAdminUser> adminUserList = adminService.findAdminUserByAdminName(null, adminUserMy.getAdminName());
+            if (adminUserList != null && adminUserList.size() > 0) {
+                return ResultUtil.error("注册失败,账号重复!");
+            }
+            adminService.addAdminUser(adminUserMy);
+            return ResultUtil.success("注册成功!");
+        } catch (Exception e) {
+            e.printStackTrace();
+            logger.error("添加管理用户错误: " + e);
+            return ResultUtil.error("添加失败!");
+        }
+    }
 
     /**
      * 添加管理用户
@@ -123,27 +158,14 @@ public class AdminController {
             adminUserMy.setAdminName(StringISNULLUtil.mapToString(adminUser1.get("username")));
             adminUserMy.setAdminFullname(StringISNULLUtil.mapToString(adminUser1.get("fullname")));
             adminUserMy.setAdminPhone(StringISNULLUtil.mapToString(adminUser1.get("phone")));
-
-            //-----特殊处理开始--------
-            DbAdminUser adminUser2 = (DbAdminUser) request.getAttribute("adminUser");
-            DbOrgan organ2 = organService.findOrganById(adminUser2.getOrganId());
-            //运营员特殊处理 level 等于2 表示运营部
-            if (organ2 != null && organ2.getLevel() == 2) {
-                //查询父级下面的所有机构
-                List<DbOrgan> organChildList = organService.findOrganByParentId(organ2.getParentId());
-                for (DbOrgan organ3 : organChildList) {
-                    if (organ3.getLevel() == 3) {
-                        adminUserMy.setOrganId(organ3.getId());
-                    }
-                }
-            } else {
-                adminUserMy.setOrganId(StringISNULLUtil.mapToInteger(adminUser1.get("organId")));
-            }
-            //-----特殊处理结束--------
-
             adminUserMy.setRoleId(StringISNULLUtil.mapToInteger(adminUser1.get("roleId")));
-
             adminUserMy.setAdminPassword(MD5.MD5Pwd(adminUserMy.getAdminName(), "888888"));
+            adminUserMy.setAge(StringISNULLUtil.mapToString(adminUser1.get("age")));
+            adminUserMy.setEducation(StringISNULLUtil.mapToString(adminUser1.get("education")));
+            adminUserMy.setSchool(StringISNULLUtil.mapToString(adminUser1.get("school")));
+            adminUserMy.setSubject(StringISNULLUtil.mapToString(adminUser1.get("subject")));
+            adminUserMy.setSuperiorUserId(StringISNULLUtil.mapToInteger(adminUser1.get("superiorUserId")));
+
             //验证名称是否重复
             List<DbAdminUser> adminUserList = adminService.findAdminUserByAdminName(null, adminUserMy.getAdminName());
             if (adminUserList != null && adminUserList.size() > 0) {
@@ -152,7 +174,7 @@ public class AdminController {
             adminService.addAdminUser(adminUserMy);
             return ResultUtil.success("添加成功!");
         } catch (Exception e) {
-
+            e.printStackTrace();
             logger.error("添加管理用户错误: " + e);
             return ResultUtil.error("添加失败!");
         }
@@ -175,44 +197,17 @@ public class AdminController {
             Map map = new HashMap();
             map.put("page", (Integer.valueOf(search.get("page").toString()) - 1) * 10);
             map.put("limit", search.get("limit"));
-            Integer allOrgan = Integer.valueOf(search.get("allOrgan").toString());
-            Integer organId = null;
-            //运营员特殊处理
-            if (adminUser.getLevel() == 2) {
-                DbOrgan organ2 = organService.findOrganById(adminUser.getOrganId());
-                //运营员特殊处理 level 等于2 表示运营部
-                //查询父级下面的所有机构
-                List<DbOrgan> organChildList = organService.findOrganByParentId(organ2.getParentId());
-                for (DbOrgan organ3 : organChildList) {
-                    if (organ3.getLevel() == 3) {
-                        organId = organ3.getId();
-                    }
-                }
-            } else {
-                organId = Integer.valueOf(search.get("organId").toString());
-            }
+            map.put("roleId", adminUser.getRoleId());
+            map.put("superiorUserId", adminUser.getSuperiorUserId());
+            map.put("id", adminUser.getId());
 
-
-            //查询单个机构的用户
-            if (allOrgan == 1) {
-                List<Integer> ids = new ArrayList<>();
-                ids.add(organId);
-                map.put("ids", ids);
-
-                //查询机构下的所有用户
-            } else if (allOrgan == 0) {
-                List<Integer> ids = new ArrayList<>();
-                ids.add(organId);
-                ids.addAll(getOrganId(organId));
-                map.put("ids", ids);
-            }
             resultUtil.setData(adminService.findAdminUserListByOrganId(map));
             resultUtil.setCount(adminService.findAdminUserListByOrganIdCount(map));
             resultUtil.setMsg("查询成功!");
             resultUtil.setCode(ExceptionConstant.SUCCESS_HTTPREUQEST);
             return resultUtil;
         } catch (Exception e) {
-
+            e.printStackTrace();
             logger.error("查询管理用户列表错误: " + e);
             return ResultUtil.error("查询失败!");
         }
@@ -236,9 +231,13 @@ public class AdminController {
             adminUserMy.setAdminName(StringISNULLUtil.mapToString(adminUser1.get("username")));
             adminUserMy.setAdminFullname(StringISNULLUtil.mapToString(adminUser1.get("fullname")));
             adminUserMy.setAdminPhone(StringISNULLUtil.mapToString(adminUser1.get("phone")));
-            adminUserMy.setOrganId(StringISNULLUtil.mapToInteger(adminUser1.get("organId")));
             adminUserMy.setRoleId(StringISNULLUtil.mapToInteger(adminUser1.get("roleId")));
             adminUserMy.setId(StringISNULLUtil.mapToInteger(adminUser1.get("id")));
+            adminUserMy.setAge(StringISNULLUtil.mapToString(adminUser1.get("age")));
+            adminUserMy.setEducation(StringISNULLUtil.mapToString(adminUser1.get("education")));
+            adminUserMy.setSchool(StringISNULLUtil.mapToString(adminUser1.get("school")));
+            adminUserMy.setSubject(StringISNULLUtil.mapToString(adminUser1.get("subject")));
+            adminUserMy.setSuperiorUserId(StringISNULLUtil.mapToInteger(adminUser1.get("superiorUserId")));
 
 
             //验证名称是否重复
@@ -250,7 +249,7 @@ public class AdminController {
             adminService.updateAdminUser(adminUserMy);
             return ResultUtil.success("更新成功!");
         } catch (Exception e) {
-
+            e.printStackTrace();
             logger.error("更新管理用户错误: " + e);
             return ResultUtil.error("更新失败!");
         }
@@ -272,7 +271,7 @@ public class AdminController {
             adminService.deleteAdminUser(adminUser);
             return ResultUtil.success("删除成功!");
         } catch (Exception e) {
-
+            e.printStackTrace();
             logger.error("删除管理用户错误: " + e);
             return ResultUtil.error("删除失败!");
         }
@@ -295,7 +294,7 @@ public class AdminController {
             adminService.editPasswordAdminUserInit(adminUser);
             return ResultUtil.success("初始化密码成功!");
         } catch (Exception e) {
-
+            e.printStackTrace();
             logger.error("初始化密码错误: " + e);
             return ResultUtil.error("初始化密码失败!");
         }
@@ -332,6 +331,7 @@ public class AdminController {
             }
 
         } catch (Exception e) {
+            e.printStackTrace();
             logger.error("修改密码错误: " + e.getMessage());
             return ResultUtil.error("修改失败!");
         }
@@ -352,6 +352,7 @@ public class AdminController {
             DbAdminUser adminUser = adminService.findAdminUserById(adminUserId);
             return ResultUtil.success(adminUser);
         } catch (Exception e) {
+            e.printStackTrace();
             logger.error("查询管理用户错误: " + e.getMessage());
             return ResultUtil.error("查询失败!");
         }
@@ -371,23 +372,11 @@ public class AdminController {
             Map map = adminService.findAdminUserINFOById(adminUserId);
             return ResultUtil.success(map);
         } catch (Exception e) {
+            e.printStackTrace();
             logger.error("查询管理用户错误: " + e.getMessage());
             return ResultUtil.error("查询失败!");
         }
     }
 
 
-    private List<Integer> getOrganId(Integer organId) throws Exception {
-        List<Integer> ids = new ArrayList<>();
-        //查询下级
-        List<DbOrgan> organChildList = organService.findOrganByParentId(organId);
-        if (organChildList != null && organChildList.size() > 0) {
-            //封装数据
-            for (DbOrgan organ : organChildList) {
-                ids.add(organ.getId());
-                ids.addAll(getOrganId(organ.getId()));
-            }
-        }
-        return ids;
-    }
 }

@@ -1,5 +1,7 @@
 package com.yys.szcp.entity;
 
+import io.swagger.models.auth.In;
+
 import java.util.Date;
 
 
@@ -14,21 +16,12 @@ import java.util.Date;
 
 public class DbAdminUser{
 
-    private static final long serialVersionUID = 1L;
-
 	private Integer id;
     /**
      * 所属角色（外键）
      */
 	private Integer roleId;
-    /**
-     * 机构(外键)
-     */
-	private Integer organId;
-    /**
-     * 所属父级
-     */
-	private Integer parentId;
+
 
     /**
      * 管理员名称
@@ -62,11 +55,37 @@ public class DbAdminUser{
      * 是否删除0: 未删除, 1表示删除
      */
 	private Integer deleteStatus;
-    /**
-     * 机构登级
-     */
-	private Integer level;
+	/**
+	 * 年龄
+	 */
+	private String age;
 
+	/**
+	 * 学历: 小学,初中,高中,专科,本科,研究生,博士,博士后
+	 */
+	private String education;
+
+	/**
+	 * 院校
+	 */
+	private String school;
+
+	/**
+	 * 专业
+	 */
+	private String subject;
+	/**
+	 * hr 上级
+	 */
+	private Integer superiorUserId;
+
+	public Integer getSuperiorUserId() {
+		return superiorUserId;
+	}
+
+	public void setSuperiorUserId(Integer superiorUserId) {
+		this.superiorUserId = superiorUserId;
+	}
 
 	public Integer getId() {
 		return id;
@@ -84,21 +103,6 @@ public class DbAdminUser{
 		this.roleId = roleId;
 	}
 
-	public Integer getOrganId() {
-		return organId;
-	}
-
-	public void setOrganId(Integer organId) {
-		this.organId = organId;
-	}
-
-	public Integer getParentId() {
-		return parentId;
-	}
-
-	public void setParentId(Integer parentId) {
-		this.parentId = parentId;
-	}
 
 	public String getAdminName() {
 		return adminName;
@@ -156,13 +160,6 @@ public class DbAdminUser{
 		this.deleteStatus = deleteStatus;
 	}
 
-    public Integer getLevel() {
-        return level;
-    }
-
-    public void setLevel(Integer level) {
-        this.level = level;
-    }
 
     public String getAdminFullname() {
         return adminFullname;
@@ -171,4 +168,36 @@ public class DbAdminUser{
     public void setAdminFullname(String adminFullname) {
         this.adminFullname = adminFullname;
     }
+
+	public String getAge() {
+		return age;
+	}
+
+	public void setAge(String age) {
+		this.age = age;
+	}
+
+	public String getEducation() {
+		return education;
+	}
+
+	public void setEducation(String education) {
+		this.education = education;
+	}
+
+	public String getSchool() {
+		return school;
+	}
+
+	public void setSchool(String school) {
+		this.school = school;
+	}
+
+	public String getSubject() {
+		return subject;
+	}
+
+	public void setSubject(String subject) {
+		this.subject = subject;
+	}
 }

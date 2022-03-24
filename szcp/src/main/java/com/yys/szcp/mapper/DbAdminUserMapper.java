@@ -63,7 +63,7 @@ public interface DbAdminUserMapper {
      * @param username
      * @return
      */
-  List<DbAdminUser> findAdminUserByAdminName(@Param("adminUserId") Integer adminUserId,@Param("username") String username);
+  List<DbAdminUser> findAdminUserByAdminName(@Param("adminUserId") Integer adminUserId,@Param("adminName") String adminName);
 
     /**
      * 初始化密码

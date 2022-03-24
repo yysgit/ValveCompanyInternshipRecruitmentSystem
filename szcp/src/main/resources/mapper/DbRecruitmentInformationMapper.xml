@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yys.szcp.mapper.DbRecruitmentInformationMapper">
+
+
+
+    <insert id="addRecruitmentInformation" parameterType="com.yys.szcp.entity.DbRecruitmentInformation">
+        insert into db_recruitment_information(post_name,post_annual_salary,post_type,post_education,post_profile,company_address,
+                                               company_region,company_name,company_profile,company_mailbox, create_time, update_time)
+        values (#{postName}, #{postAnnualSalary}, #{postType}, #{postEducation}, #{postProfile}, #{companyAddress},
+                #{companyRegion}, #{companyName}, #{companyProfile},#{companyMailbox}, now(), now());
+    </insert>
+
+
+    <update id="deleteRecruitmentInformation" parameterType="com.yys.szcp.entity.DbRecruitmentInformation">
+        update db_recruitment_information
+        set delete_status = #{deleteStatus}
+        where id = #{id}
+    </update>
+
+
+    <update id="updateRecruitmentInformation" parameterType="com.yys.szcp.entity.DbRecruitmentInformation">
+        update db_recruitment_information
+        set post_name= #{postName},
+            post_annual_salary= #{postAnnualSalary},
+            post_type= #{postType},
+            post_education= #{postEducation},
+            post_profile= #{postProfile},
+            company_address= #{companyAddress},
+            company_region= #{companyRegion},
+            company_name= #{companyName},
+            company_profile= #{companyProfile},
+            company_mailbox= #{companyMailbox},
+            update_time= now()
+        where id = #{id}
+    </update>
+
+    <select id="findRecruitmentInformationList" resultType="java.util.Map" parameterType="java.util.Map">
+
+        select dbri.id AS id,
+        dbri.post_name AS postName,
+        dbri.post_annual_salary as postAnnualSalary,
+        dbri.post_type AS postType,
+        dbri.post_education AS postEducation,
+        dbri.post_profile as postProfile,
+        dbri.company_address AS companyAddress,
+        dbri.company_region AS companyRegion,
+        dbri.company_name AS companyName,
+        dbri.company_profile AS companyProfile,
+        dbri.company_mailbox AS companyMailbox,
+        dbri.create_time AS createTime,
+        dbri.update_time AS updateTime,
+        dbri.delete_status AS deleteStatus
+        from db_recruitment_information dbri
+        where dbri.delete_status = 0
+        <if test="searchPostType!=null and searchPostType!='' ">
+            and (dbri.post_type LIKE concat(concat('%',#{searchPostType}),'%'))
+        </if>
+        <if test="searchCompanyRegion!=null and searchCompanyRegion!='' ">
+            and (dbri.company_region LIKE concat(concat('%',#{searchCompanyRegion}),'%'))
+        </if>
+        order by dbri.update_time DESC
+        limit #{page} , #{limit};
+    </select>
+
+    <!--查询提现记录数量 -->
+    <select id="findRecruitmentInformationListCount" resultType="java.lang.Integer" parameterType="java.util.Map">
+        select count(*)
+        from db_recruitment_information dbri
+        where dbri.delete_status = 0
+        <if test="searchPostType!=null and searchPostType!='' ">
+            and (dbri.post_type LIKE concat(concat('%',#{searchPostType}),'%'))
+        </if>
+        <if test="searchCompanyRegion!=null and searchCompanyRegion!='' ">
+            and (dbri.company_region LIKE concat(concat('%',#{searchCompanyRegion}),'%'))
+        </if>
+    </select>
+
+
+
+
+</mapper>

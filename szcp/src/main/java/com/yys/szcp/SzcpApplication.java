@@ -11,8 +11,6 @@ public class SzcpApplication {
 
     public static void main(String[] args) {
         SpringApplication.run(SzcpApplication.class, args);
-//        //允许特殊符号,本例是 | { } 做入参，也可追加其他符号
-//        System.setProperty("tomcat.util.http.parser.HttpParser.requestTargetAllow","|{}[]");
     }
 
 }
