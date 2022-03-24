@@ -1,9 +1,8 @@
 import {
     addJobSearchType,
     getJobSearchTableList,
-		// addFundInfo,
-    // editFundInfoById,
-    // deleteFundInfoById
+    upJobSearchType,
+    deleteJobSearchById
   } from '@/api/jobSearch'
   import { setToken, getToken } from '@/libs/util'
   
@@ -37,8 +36,22 @@ import {
           }
         })
       },
-
-			//基金类型管理页面
+			// 编辑
+      upJobSearchType({ state, commit }, { fundInfo }) {
+        return new Promise((resolve, reject) => {
+          try {
+            upJobSearchType(state.token, fundInfo).then(res => {
+              const data = res.data;
+              resolve(data)
+            }).catch(err => {
+              reject(err)
+            })
+          } catch (error) {
+            reject(error)
+          }
+        })
+      },				
+			//获取列表
 			getJobSearchTableList({ state, commit }, { searchPream }) {
 				return new Promise((resolve, reject) => {
 						try {
@@ -70,24 +83,11 @@ import {
           }
         })
       },
-      editFundInfoById({ state, commit }, { fundInfo }) {
+			// 删除
+      deleteJobSearchById({ state, commit }, { fundInfoId }) {
         return new Promise((resolve, reject) => {
           try {
-            editFundInfoById(state.token, fundInfo).then(res => {
-              const data = res.data;
-              resolve(data)
-            }).catch(err => {
-              reject(err)
-            })
-          } catch (error) {
-            reject(error)
-          }
-        })
-      },
-      deleteFundInfoById({ state, commit }, { fundInfoId }) {
-        return new Promise((resolve, reject) => {
-          try {
-            deleteFundInfoById(state.token, fundInfoId).then(res => {
+            deleteJobSearchById(state.token, fundInfoId).then(res => {
               const data = res.data;
               resolve(data)
             }).catch(err => {

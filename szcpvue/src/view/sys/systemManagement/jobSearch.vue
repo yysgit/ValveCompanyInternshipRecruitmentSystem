@@ -131,7 +131,6 @@ import { permsVerifAuthention } from "@/libs/util";
 export default {
   name: "tree_table_page",
   data() {
-
     return {
       model1:"",
       model2:"",
@@ -292,18 +291,30 @@ export default {
         }
       ],
       //表格数据
-      tableData: [{id:"1"}]
+      tableData: [{id:"1"}],
+      baseUlr:"sys/recruitmentInformation",
+      //添加接口
+      addUrl:"addRecruitmentInformation",
+      //删除接口
+      delUrl:"deleteRecruitmentInformation",
+      //更新
+      upUrl:"updateRecruitmentInformation",
+      // 查询列表
+      tableUrl:"findRecruitmentInformationList",
+      modalType:"",//弹窗类型 add-edit
     };
   },
   created() {
     this.init();
-    this.jobStyle = this.$store.state.user.jobTypeList;
-    this.queryList()
+    this.jobStyle = this.$store.state.user.jobTypeList;//赋值区域数据字典
+    this.queryList()//获取列表
   },
   methods: {
     ...mapActions([
       "addJobSearchType",
-      "getJobSearchTableList"
+      "getJobSearchTableList",
+      "deleteJobSearchById",
+      "upJobSearchType"
     ]),
     buttonVerifAuthention(perms) {
       return permsVerifAuthention(perms, this.$store.state.user.authentionList);
@@ -329,14 +340,13 @@ export default {
     //获取页面菜单列表
     queryList() {
       this.loading = true;
-
       let searchPream = {
         page: this.currentPage,
         limit: this.fetchNum,
-        searchPostType:"", //职位类型
-        searchCompanyRegion:"" //公司区域
+        searchPostType:this.model1, //职位类型
+        searchCompanyRegion:this.model2 //公司区域
       }
-      let _url = "sys/recruitmentInformation/findRecruitmentInformationList"
+      console.log(searchPream,"请求数据");
       //发送请求
       this.getJobSearchTableList({ searchPream }).then(res => {
         this.tableData = res.data;
@@ -346,7 +356,6 @@ export default {
         this.loading = false;
       });
     },
-
     //查询
     searchQuery() {
       this.currentPage = 1;
@@ -356,6 +365,7 @@ export default {
     addFundInfoButton(scope) {
       console.log("add")
       this.modalFundInfoAdd = true;
+      this.modalType = "add" ;
     },
     /**
      * 添加数据提交
@@ -372,7 +382,6 @@ export default {
         // companyName: "", //公司名称
         // companyProfile: "", //公司简介
         // companyMailbox: "", //公司邮箱
-
       let fundType = {
         "postName":this.formValidateFundTypeAdd.postName,//岗位名称
         "postAnnualAalary":this.formValidateFundTypeAdd.postAnnualSalary, //年薪
@@ -385,39 +394,29 @@ export default {
         "companyProfile":this.formValidateFundTypeAdd.companyProfile,
         "companyMailbox":this.formValidateFundTypeAdd.companyMailbox,
       }
-      
-      this.addJobSearchType({fundType}).then(res => {
-        console.log(res,'添加返回')
-      });
-
-      // this.addOrganChild({fundType}).then(res => {
-
-      //     this.loadingModel=false;//关闭提交按钮转圈
-      //     this.modal7 = false;//关闭弹窗
-      //     //情况表单数据
-      //     this.formValidate = {
-      //       id:'',
-      //       organName: '',
-      //       organRemake: '',
-      //       sorting: '',
-      //       parentId:0
-      //     };
-      //     //刷新菜单页面
-      //     this.queryList();
-
-      // })
+      if(this.modalType=="add"){
+        this.addJobSearchType({fundType}).then(res => {
+          console.log(res,'添加返回')
+        });
+      } 
+      if(this.modalType=="edit"){
+        this.upJobSearchType({fundType}).then(res => {
+          console.log(res,'添加返回')
+        });
+      } 
 
 
     },
 
-    //删除文章菜单
+    //删除
     deleteFundInfoButton(scope) {
+      console.log(scope,"<<<<<<<del")
       this.$Modal.confirm({
         title: "删除",
         content: "<p>你确认要删除此条信息吗!</p>",
         onOk: () => {
           let fundInfoId = scope.row.id;
-          this.deleteFundInfoById({ fundInfoId }).then(res => {
+          this.deleteJobSearchById({ fundInfoId }).then(res => {
             this.$Message.info(res.msg);
             //刷新菜单页面
             this.queryList();
@@ -436,14 +435,7 @@ export default {
       this.modalFundInfoAdd = true;
     },
     
-    //详情
-    detail(scope) {
-      console.log(scope)
-      console.log("detail")
-      this.modalFundInfoAdd = true;
-    },
-
-
+    
   }
 };
 </script>

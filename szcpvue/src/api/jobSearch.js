@@ -17,6 +17,21 @@ export const addJobSearchType = (token,searchPream) => {
   })
 }
 /**
+ * 修改
+ * @param {*} token 
+ * @param {*} searchPream 
+ * @returns 
+ */
+export const upJobSearchType = (token,searchPream) => {
+  return axios.request({
+    url: 'sys/recruitmentInformation/addRecruitmentInformation',
+    params: {
+      token,searchPream
+    },
+    method: 'post'
+  })
+}
+/**
  * 获取表格
  * @param {*} token 
  * @param {*} searchPream 
@@ -31,6 +46,19 @@ export const getJobSearchTableList = (token,searchPream) => {
     method: 'post'
   })
 }
-
-
-
+/**
+ * 删除
+ * @param {*} token 
+ * @param {*} fundInfo 
+ * @returns 
+ */
+export const deleteJobSearchById= (token,fundInfo) => {
+  return axios.request({
+    url: 'sys/recruitmentInformation/deleteRecruitmentInformation',
+    params: {
+      token,
+      fundInfo
+    },
+    method: 'post'
+  })
+}
