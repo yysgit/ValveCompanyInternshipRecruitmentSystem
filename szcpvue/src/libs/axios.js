@@ -23,7 +23,7 @@ class HttpRequest {
   }
 
   getInsideConfig() {
-    console.log("store.state.user.token",store.state.user.token)
+    // console.log("store.state.user.token",store.state.user.token)
     const config = {
       baseURL: this.baseUrl,
       headers: {

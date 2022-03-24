@@ -16,6 +16,21 @@ export const addJobSearchType = (token,searchPream) => {
     method: 'post'
   })
 }
+/**
+ * 获取表格
+ * @param {*} token 
+ * @param {*} searchPream 
+ * @returns 
+ */
+export const getJobSearchTableList = (token,searchPream) => {
+  return axios.request({
+    url: 'sys/recruitmentInformation/findRecruitmentInformationList',
+    params: {
+      token,searchPream
+    },
+    method: 'post'
+  })
+}
 
 
 

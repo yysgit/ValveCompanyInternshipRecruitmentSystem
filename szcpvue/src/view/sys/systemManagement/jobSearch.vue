@@ -298,10 +298,12 @@ export default {
   created() {
     this.init();
     this.jobStyle = this.$store.state.user.jobTypeList;
+    this.queryList()
   },
   methods: {
     ...mapActions([
-      "addJobSearchType"
+      "addJobSearchType",
+      "getJobSearchTableList"
     ]),
     buttonVerifAuthention(perms) {
       return permsVerifAuthention(perms, this.$store.state.user.authentionList);
@@ -327,8 +329,16 @@ export default {
     //获取页面菜单列表
     queryList() {
       this.loading = true;
+
+      let searchPream = {
+        page: this.currentPage,
+        limit: this.fetchNum,
+        searchPostType:"", //职位类型
+        searchCompanyRegion:"" //公司区域
+      }
+      let _url = "sys/recruitmentInformation/findRecruitmentInformationList"
       //发送请求
-      this.getFundInfoList({ searchPream }).then(res => {
+      this.getJobSearchTableList({ searchPream }).then(res => {
         this.tableData = res.data;
         this.totalPage = res.count;
         this.loading = false;
