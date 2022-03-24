@@ -175,16 +175,16 @@ export default {
       //工作数据
       formValidateFundTypeAdd: {
         id: "",
-        postName: "", //岗位名称
-        postAnnualSalary: "", //年薪
-        postType:"",   //职位类型
-        postEducation: "", //学历
-        postProfile: "", //职位简介
-        companyAddress: "", //详细地址
-        companyRegion: "", //地区
-        companyName: "", //公司名称
-        companyProfile: "", //公司简介
-        companyMailbox: "", //公司邮箱
+        postName: "java", //岗位名称
+        postAnnualSalary: "12k", //年薪
+        postType:"不限",   //职位类型
+        postEducation: "大专", //学历
+        postProfile: "职位简介996", //职位简介
+        companyAddress: "北京东城区", //详细地址
+        companyRegion: "北京", //地区
+        companyName: "万事达有限责任公司", //公司名称
+        companyProfile: "卖电器", //公司简介
+        companyMailbox: "123@123.com", //公司邮箱
       },
       //表单验证
       modalFundInfoEdit: false,
@@ -307,7 +307,6 @@ export default {
       return permsVerifAuthention(perms, this.$store.state.user.authentionList);
     },
     init(){
-      console.log(mapActions)
       var provs = DC.getProvs();
       var _provs = [];
       for (let i = 0; i < provs.length; i++) {
