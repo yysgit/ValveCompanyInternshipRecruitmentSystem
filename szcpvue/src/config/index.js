@@ -2,7 +2,7 @@ export default {
   /**
    * @description 配置显示在浏览器标签的title
    */
-  title: '全栈九九六',
+  title: 'Valve公司实习招聘系统',
   /**
    * @description token在Cookie中存储的天数，默认1天
    */
@@ -18,8 +18,8 @@ export default {
    */
   baseUrl: {
 
-    dev: 'http://118.31.187.222:7089',
-    pro: 'http://118.31.187.222:7089',
+    dev: 'http://118.31.187.222:7090',
+    pro: 'http://118.31.187.222:7090',
 
 
     // dev: 'https://api.blog996.com',

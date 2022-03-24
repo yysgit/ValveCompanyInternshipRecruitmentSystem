@@ -13,6 +13,7 @@ import {
   editPasswordAdminUserById,
   getMessage,
   getHomeData,
+  userRegister,
 
 } from '@/api/user'
 import { setToken, getToken } from '@/libs/util'
@@ -41,6 +42,16 @@ export default {
     menuIsShow: false,
     articleUrl: '',
     articleMenuList: [],
+    jobTypeList: [
+      {values: '0', value: '不限', label: '不限'}, 
+      {values: '1', value: '销售/商务拓展', label: '销售/商务拓展'}, 
+      {values: '2', value: '人事/行政/财务/法务', label: '人事/行政/财务/法务'}, 
+      {values: '3', value: '金融/保险', label: '金融/保险'}, 
+      {values: '4', value: '房地产/工程/建筑', label: '房地产/工程/建筑'}, 
+      {values: '5', value: '影视传媒', label: '影视传媒'}, 
+      {values: '6', value: '互联网/通信及硬件', label: '互联网/通信及硬件'}, 
+      {values: '7', value: '农业/能源/环保', label: '农业/能源/环保'}, 
+    ],
   },
   mutations: {
     setThat(state, that) {
@@ -165,6 +176,7 @@ export default {
 
     // 登录
     handleLogin({ commit }, { username, password, vcode }) {
+      console.log(username, password, vcode,'登录参数')
       username = username.trim()
       return new Promise((resolve, reject) => {
         // console.log(username, password);
@@ -174,6 +186,21 @@ export default {
           vcode
         }).then(res => {
 
+          const data = res.data;
+          if (data.code == 200) {
+            commit('setToken', data.msg)
+          }
+          resolve(data)
+        }).catch(err => {
+          reject(err)
+        })
+      })
+    },
+
+    //注册
+    handleRegister ({ commit }, adminUser) {
+      return new Promise((resolve, reject) => {
+        userRegister( adminUser).then(res => {
           const data = res.data;
           if (data.code == 200) {
             commit('setToken', data.msg)

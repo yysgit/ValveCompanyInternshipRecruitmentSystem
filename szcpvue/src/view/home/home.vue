@@ -1,15 +1,18 @@
 <template>
   <div>
     <div style="min-width:1000px">
-    <Row :gutter="20">
+      <div class="welcom_text">
+        <strong>欢迎来到Valve公司实习招聘系统</strong>
+      </div>
+    <!-- <Row :gutter="20">
       <i-col :xs="12" :md="8" :lg="4" v-for="(infor, i) in inforCardData" :key="`infor-${i}`" style="height: 120px;padding-bottom: 10px;">
         <infor-card shadow :color="infor.color" :icon="infor.icon" :icon-size="36">
           <count-to :end="infor.count" count-class="count-style"/>
           <p>{{ infor.title }}</p>
         </infor-card>
       </i-col>
-    </Row>
-    <Row :gutter="20" style="margin-top: 10px;">
+    </Row> -->
+    <!-- <Row :gutter="20" style="margin-top: 10px;">
       <i-col :md="24" :lg="8" style="margin-bottom: 20px;">
         <Card shadow>
           <chart-pie style="height: 300px;" :value="pieData" text="订单费用"></chart-pie>
@@ -20,12 +23,12 @@
           <chart-bar style="height: 300px;" :value="barData" text="近周订单数量"/>
         </Card>
       </i-col>
-    </Row>
-    <Row>
+    </Row> -->
+    <!-- <Row>
       <Card shadow>
         <example style="height: 350px;" :value="weekOrderMoney"  text="近周订单金额"/>
       </Card>
-    </Row>
+    </Row> -->
     </div>
   </div>
 </template>
@@ -144,5 +147,12 @@ export default {
 <style lang="less">
 .count-style{
   font-size: 50px;
+}
+</style>
+<style lang="less" scoped>
+.welcom_text{
+  font-size: 29px;
+  text-align: center;
+  margin-top: 15vh;
 }
 </style>
