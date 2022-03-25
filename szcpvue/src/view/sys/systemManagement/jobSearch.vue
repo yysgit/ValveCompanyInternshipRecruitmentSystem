@@ -3,9 +3,9 @@
     <div style="min-width:1000px">
       <Card shadow>
         <!--添加工作-->
-        <!-- v-if="buttonVerifAuthention('sys:fundInfo:addFundInfo')" -->
-        <Button
-          type="primary"
+        <!-- -->
+        <Button v-if="buttonVerifAuthention('sys:recruitmentInformation:addRecruitmentInformation')"
+                type="primary"
           icon="md-add"
           @click="addFundInfoButton"
           style="margin-bottom: 10px;"
@@ -221,7 +221,7 @@ export default {
           render: (h, params) => {
             return h("div", [
               (() => {
-                if (this.buttonVerifAuthention("sys:fundInfo:updateFundInfo")) {
+                if (this.buttonVerifAuthention("sys:recruitmentInformation:findRecruitmentInformationList")) {
                   return h(
                     "Button",
                     {
@@ -243,7 +243,7 @@ export default {
                 }
               })(),
               (() => {
-                if (this.buttonVerifAuthention("sys:fundInfo:deleteFundInfo")) {
+                if (this.buttonVerifAuthention("sys:recruitmentInformation:deleteRecruitmentInformation")) {
                   return h(
                     "Button",
                     {
@@ -264,28 +264,6 @@ export default {
                   );
                 }
               })(),
-              (() => {
-                if (this.buttonVerifAuthention("sys:fundInfo:deleteFundInfo")) {
-                  return h(
-                    "Button",
-                    {
-                      props: {
-                        type: "primary",
-                        size: "small"
-                      },
-                      style: {
-                        marginRight: "5px"
-                      },
-                      on: {
-                        click: () => {
-                          this.detail(params);
-                        }
-                      }
-                    },
-                    "详情"
-                  );
-                }
-              })()
             ]);
           }
         }
