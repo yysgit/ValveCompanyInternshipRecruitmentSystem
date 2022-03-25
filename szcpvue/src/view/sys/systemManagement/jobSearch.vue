@@ -26,6 +26,7 @@
 
           <Col span="2" style="margin-right: 10px;">
             <Button
+              v-if="buttonVerifAuthention('sys:recruitmentInformation:findRecruitmentInformationList')"
               type="primary"
               icon="md-search"
               @click="searchQuery"
@@ -116,7 +117,7 @@
           </Form>
           <div slot="footer">
             <Button type="text" size="large" @click="modalFundInfoAdd=false">取消</Button>
-            <Button type="primary" size="large" @click="addFundTypeClick" >确定</Button>
+            <Button type="primary" size="large" @click="addFundTypeClick" v-if="modalType!='view'">确定</Button>
           </div>
         </Modal>
 
@@ -174,16 +175,16 @@ export default {
       //工作数据
       formValidateFundTypeAdd: {
         id: "",
-        postName: "java", //岗位名称
-        postAnnualSalary: "12k", //年薪
-        postType:"不限",   //职位类型
-        postEducation: "大专", //学历
-        postProfile: "职位简介996", //职位简介
-        companyAddress: "北京东城区", //详细地址
-        companyRegion: "北京", //地区
-        companyName: "万事达有限责任公司", //公司名称
-        companyProfile: "卖电器", //公司简介
-        companyMailbox: "123@123.com", //公司邮箱
+        postName: "", //岗位名称
+        postAnnualSalary: "", //年薪
+        postType:"",   //职位类型
+        postEducation: "", //学历
+        postProfile: "", //职位简介
+        companyAddress: "", //详细地址
+        companyRegion: "", //地区
+        companyName: "", //公司名称
+        companyProfile: "", //公司简介
+        companyMailbox: "", //公司邮箱
       },
       //表单验证
       modalFundInfoEdit: false,
@@ -206,12 +207,29 @@ export default {
             );
           }
         },
-        { title: "工作区域", align: "center",  key: "fundName" },
-        { title: "职位类型", align: "center",  key: "fundName" },
-        { title: "学历要求", align: "center",  key: "fundName" },
-        { title: "薪资", align: "center",  key: "fundName" },
-        { title: "名称", align: "center",  key: "fundName" },
-        { title: "要求工作年限", align: "center",  key: "fundName" },
+        { title: "工作区域", align: "center",  key: "companyAddress" },
+        { title: "工作地址", align: "center",  key: "companyRegion" },
+        {
+          title: "职位类型",
+          align: "center",
+          key: "postType",
+          render: (h, params) => {
+            if (params.row.postType ==null ) {
+              return h(
+                "div",
+                '不限'
+              );
+            } else {
+              return h(
+                "div",
+                params.row.postType
+              );
+            }
+          }
+        },
+        { title: "学历要求", align: "center",  key: "postEducation" },
+        { title: "薪资", align: "center",  key: "postAnnualSalary" },
+        { title: "岗位名称", align: "center",  key: "postName" },
 
         {
           title: "操作",
@@ -221,7 +239,7 @@ export default {
           render: (h, params) => {
             return h("div", [
               (() => {
-                if (this.buttonVerifAuthention("sys:recruitmentInformation:findRecruitmentInformationList")) {
+                if (this.buttonVerifAuthention("sys:recruitmentInformation:updateRecruitmentInformation")) {
                   return h(
                     "Button",
                     {
@@ -264,6 +282,28 @@ export default {
                   );
                 }
               })(),
+              (() => {
+                if (this.buttonVerifAuthention("sys:recruitmentInformation:updateRecruitmentInformation")) {
+                  return h(
+                    "Button",
+                    {
+                      props: {
+                        type: "primary",
+                        size: "small"
+                      },
+                      style: {
+                        marginRight: "5px"
+                      },
+                      on: {
+                        click: () => {
+                          this.viewData(params);
+                        }
+                      }
+                    },
+                    "查看"
+                  );
+                }
+              })(),
             ]);
           }
         }
@@ -280,6 +320,7 @@ export default {
       // 查询列表
       tableUrl:"findRecruitmentInformationList",
       modalType:"",//弹窗类型 add-edit
+      editId:"",  //编辑条目的id
     };
   },
   created() {
@@ -324,7 +365,9 @@ export default {
         searchPostType:this.model1, //职位类型
         searchCompanyRegion:this.model2 //公司区域
       }
-      console.log(searchPream,"请求数据");
+      if(searchPream.searchCompanyRegion=='0'){
+        searchPream.searchCompanyRegion = "";
+      }
       //发送请求
       this.getJobSearchTableList({ searchPream }).then(res => {
         this.tableData = res.data;
@@ -349,20 +392,9 @@ export default {
      * 添加数据提交
      */
     addFundTypeClick(){
-      console.log(this.formValidateFundTypeAdd);
-        // postName: "", //岗位名称
-        // postAnnualSalary: "", //年薪
-        //postType:"",   //职位类型
-        // postEducation: "", //学历
-        // postProfile: "", //职位简介
-        // companyAddress: "", //详细地址
-        // companyRegion: "", //地区
-        // companyName: "", //公司名称
-        // companyProfile: "", //公司简介
-        // companyMailbox: "", //公司邮箱
       let fundType = {
         "postName":this.formValidateFundTypeAdd.postName,//岗位名称
-        "postAnnualAalary":this.formValidateFundTypeAdd.postAnnualSalary, //年薪
+        "postAnnualSalary":this.formValidateFundTypeAdd.postAnnualSalary, //年薪
         "postType":this.formValidateFundTypeAdd.postType,
         "postEducation":this.formValidateFundTypeAdd.postEducation,
         "postProfile":this.formValidateFundTypeAdd.postProfile,
@@ -372,18 +404,33 @@ export default {
         "companyProfile":this.formValidateFundTypeAdd.companyProfile,
         "companyMailbox":this.formValidateFundTypeAdd.companyMailbox,
       }
+      if(fundType.postType=='0'){
+        fundType.postType = "";
+      }
       if(this.modalType=="add"){
         this.addJobSearchType({fundType}).then(res => {
           console.log(res,'添加返回')
+          if(res.code==200){
+            this.$Message.success("添加成功!");
+            this.modalFundInfoAdd = false;
+            // 可以做些清空form表单的动作
+            //刷新菜单页面
+            this.queryList();
+          }
         });
       }
       if(this.modalType=="edit"){
+        fundType.id = this.editId;
         this.upJobSearchType({fundType}).then(res => {
-          console.log(res,'添加返回')
+          if(res.code==200){
+            this.$Message.success("更新成功!");
+            this.modalFundInfoAdd = false;
+            // 可以做些清空form表单的动作
+            //刷新菜单页面
+            this.queryList();
+          }
         });
       }
-
-
     },
 
     //删除
@@ -408,9 +455,42 @@ export default {
 
     //编辑
     editFundInfoButton(scope) {
-      console.log(scope)
-      console.log("edit")
       this.modalFundInfoAdd = true;
+      this.formValidateFundTypeAdd.postName = scope.row.postName;
+      this.formValidateFundTypeAdd.postAnnualSalary = scope.row.postAnnualSalary;
+      this.formValidateFundTypeAdd.postType = scope.row.postType;
+      if(!this.formValidateFundTypeAdd.postType){
+        this.formValidateFundTypeAdd.postType = "0";
+      }
+      this.formValidateFundTypeAdd.postEducation = scope.row.postEducation;
+      this.formValidateFundTypeAdd.postProfile = scope.row.postProfile;
+      this.formValidateFundTypeAdd.companyAddress = scope.row.companyAddress;
+      this.formValidateFundTypeAdd.companyRegion = scope.row.companyRegion;
+      this.formValidateFundTypeAdd.companyName = scope.row.companyName;
+      this.formValidateFundTypeAdd.companyProfile = scope.row.companyProfile;
+      this.formValidateFundTypeAdd.companyMailbox = scope.row.companyMailbox;
+      this.editId = scope.row.id;
+      this.modalType = "edit";
+    },
+
+    //查看
+    viewData(scope) {
+      this.modalFundInfoAdd = true;
+      this.formValidateFundTypeAdd.postName = scope.row.postName;
+      this.formValidateFundTypeAdd.postAnnualSalary = scope.row.postAnnualSalary;
+      this.formValidateFundTypeAdd.postType = scope.row.postType;
+      if(!this.formValidateFundTypeAdd.postType){
+        this.formValidateFundTypeAdd.postType = "0";
+      }
+      this.formValidateFundTypeAdd.postEducation = scope.row.postEducation;
+      this.formValidateFundTypeAdd.postProfile = scope.row.postProfile;
+      this.formValidateFundTypeAdd.companyAddress = scope.row.companyAddress;
+      this.formValidateFundTypeAdd.companyRegion = scope.row.companyRegion;
+      this.formValidateFundTypeAdd.companyName = scope.row.companyName;
+      this.formValidateFundTypeAdd.companyProfile = scope.row.companyProfile;
+      this.formValidateFundTypeAdd.companyMailbox = scope.row.companyMailbox;
+      this.editId = scope.row.id;
+      this.modalType = "view";
     },
 
 

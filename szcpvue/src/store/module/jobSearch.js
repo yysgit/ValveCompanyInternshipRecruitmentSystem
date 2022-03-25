@@ -37,10 +37,10 @@ import {
         })
       },
 			// 编辑
-      upJobSearchType({ state, commit }, { fundInfo }) {
+      upJobSearchType({ state, commit }, { fundType }) {
         return new Promise((resolve, reject) => {
           try {
-            upJobSearchType(state.token, fundInfo).then(res => {
+            upJobSearchType(state.token, fundType).then(res => {
               const data = res.data;
               resolve(data)
             }).catch(err => {
@@ -50,7 +50,8 @@ import {
             reject(error)
           }
         })
-      },				
+      },		
+      
 			//获取列表
 			getJobSearchTableList({ state, commit }, { searchPream }) {
 				return new Promise((resolve, reject) => {

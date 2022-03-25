@@ -43,7 +43,7 @@ export default {
     articleUrl: '',
     articleMenuList: [],
     jobTypeList: [
-      {values: '0', value: '不限', label: '不限'},
+      {values: '0', value: '0', label: '不限'},
       {values: '1', value: '销售/商务拓展', label: '销售/商务拓展'},
       {values: '2', value: '人事/行政/财务/法务', label: '人事/行政/财务/法务'},
       {values: '3', value: '金融/保险', label: '金融/保险'},
