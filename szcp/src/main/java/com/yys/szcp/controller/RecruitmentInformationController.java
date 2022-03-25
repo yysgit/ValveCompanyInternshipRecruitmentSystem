@@ -43,7 +43,7 @@ public class RecruitmentInformationController {
             RecruitmentInformationMy.setPostAnnualSalary(StringISNULLUtil.mapToString(RecruitmentInformationParam.get("postAnnualSalary")));
             RecruitmentInformationMy.setPostType(StringISNULLUtil.mapToString(RecruitmentInformationParam.get("postType")));
             RecruitmentInformationMy.setPostEducation(StringISNULLUtil.mapToString(RecruitmentInformationParam.get("postEducation")));
-            RecruitmentInformationMy.setPsotProfile(StringISNULLUtil.mapToString(RecruitmentInformationParam.get("postProfile")));
+            RecruitmentInformationMy.setPostProfile(StringISNULLUtil.mapToString(RecruitmentInformationParam.get("postProfile")));
             RecruitmentInformationMy.setCompanyAddress(StringISNULLUtil.mapToString(RecruitmentInformationParam.get("companyAddress")));
             RecruitmentInformationMy.setCompanyRegion(StringISNULLUtil.mapToString(RecruitmentInformationParam.get("companyRegion")));
             RecruitmentInformationMy.setCompanyName(StringISNULLUtil.mapToString(RecruitmentInformationParam.get("companyName")));
@@ -96,7 +96,7 @@ public class RecruitmentInformationController {
             RecruitmentInformationMy.setPostAnnualSalary(StringISNULLUtil.mapToString(RecruitmentInformationParam.get("postAnnualSalary")));
             RecruitmentInformationMy.setPostType(StringISNULLUtil.mapToString(RecruitmentInformationParam.get("postType")));
             RecruitmentInformationMy.setPostEducation(StringISNULLUtil.mapToString(RecruitmentInformationParam.get("postEducation")));
-            RecruitmentInformationMy.setPsotProfile(StringISNULLUtil.mapToString(RecruitmentInformationParam.get("postProfile")));
+            RecruitmentInformationMy.setPostProfile(StringISNULLUtil.mapToString(RecruitmentInformationParam.get("postProfile")));
             RecruitmentInformationMy.setCompanyAddress(StringISNULLUtil.mapToString(RecruitmentInformationParam.get("companyAddress")));
             RecruitmentInformationMy.setCompanyRegion(StringISNULLUtil.mapToString(RecruitmentInformationParam.get("companyRegion")));
             RecruitmentInformationMy.setCompanyName(StringISNULLUtil.mapToString(RecruitmentInformationParam.get("companyName")));

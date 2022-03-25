@@ -9,7 +9,7 @@
           icon="md-add"
           @click="addFundInfoButton"
           style="margin-bottom: 10px;"
-        >添加职位（权限控制）</Button>
+        >添加职位</Button>
 
         <!-- 查询 -->
         <Row>
@@ -119,7 +119,7 @@
             <Button type="primary" size="large" @click="addFundTypeClick" >确定</Button>
           </div>
         </Modal>
-  
+
       </Card>
     </div>
   </div>
@@ -137,28 +137,28 @@ export default {
       model3:"",
       model4:"",
       cityList: [
-        {value: 'beijing', label: '北京市'}, 
+        {value: 'beijing', label: '北京市'},
       ],
       jobStyle:[], //工作类型
       eduTypeList: [
-        {value: '0', label: '不限'}, 
-        {value: '1', label: '初中及以下'}, 
-        {value: '2', label: '高中'}, 
-        {value: '3', label: '中专/中技'}, 
-        {value: '4', label: '大专'}, 
-        {value: '5', label: '硕士'}, 
-        {value: '6', label: 'MBA/EMBA'}, 
+        {value: '0', label: '不限'},
+        {value: '1', label: '初中及以下'},
+        {value: '2', label: '高中'},
+        {value: '3', label: '中专/中技'},
+        {value: '4', label: '大专'},
+        {value: '5', label: '硕士'},
+        {value: '6', label: 'MBA/EMBA'},
         {value: '7', label: '博士'},
       ],
       salaryTypeList: [
-        {value: '0', label: '不限'}, 
-        {value: '1', label: '4K以下'}, 
-        {value: '2', label: '4K-6K'}, 
-        {value: '3', label: '8K-10K'}, 
-        {value: '4', label: '10K-15K'}, 
-        {value: '5', label: '5K-35K'}, 
-        {value: '6', label: '35K-50K'}, 
-        {value: '7', label: '50K以上'}, 
+        {value: '0', label: '不限'},
+        {value: '1', label: '4K以下'},
+        {value: '2', label: '4K-6K'},
+        {value: '3', label: '8K-10K'},
+        {value: '4', label: '10K-15K'},
+        {value: '5', label: '5K-35K'},
+        {value: '6', label: '35K-50K'},
+        {value: '7', label: '50K以上'},
       ],
 
       stylePage: {
@@ -398,12 +398,12 @@ export default {
         this.addJobSearchType({fundType}).then(res => {
           console.log(res,'添加返回')
         });
-      } 
+      }
       if(this.modalType=="edit"){
         this.upJobSearchType({fundType}).then(res => {
           console.log(res,'添加返回')
         });
-      } 
+      }
 
 
     },
@@ -434,8 +434,8 @@ export default {
       console.log("edit")
       this.modalFundInfoAdd = true;
     },
-    
-    
+
+
   }
 };
 </script>

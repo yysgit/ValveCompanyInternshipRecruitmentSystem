@@ -39,7 +39,7 @@ public class DbRecruitmentInformation  {
     /**
      * 职位简介
      */
-	private String psotProfile;
+	private String postProfile;
     /**
      * 详细地址
      */
@@ -145,12 +145,12 @@ public class DbRecruitmentInformation  {
 		this.postEducation = postEducation;
 	}
 
-	public String getPsotProfile() {
-		return psotProfile;
+	public String getPostProfile() {
+		return postProfile;
 	}
 
-	public void setPsotProfile(String psotProfile) {
-		this.psotProfile = psotProfile;
+	public void setPostProfile(String postProfile) {
+		this.postProfile = postProfile;
 	}
 
 	public String getCompanyAddress() {
