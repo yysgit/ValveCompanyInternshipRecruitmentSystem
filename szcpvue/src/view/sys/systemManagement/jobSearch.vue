@@ -285,7 +285,7 @@ export default {
                 }
               })(),
               (() => {
-                if (this.buttonVerifAuthention("sys:recruitmentInformation:updateRecruitmentInformation")) {
+                if (this.buttonVerifAuthention("sys:recruitmentInformation:findRecruitmentInformationList")) {
                   return h(
                     "Button",
                     {
