@@ -6,15 +6,16 @@
         <!-- -->
         <Button v-if="buttonVerifAuthention('sys:recruitmentInformation:addRecruitmentInformation')"
                 type="primary"
-          icon="md-add"
-          @click="addFundInfoButton"
-          style="margin-bottom: 10px;"
-        >添加职位</Button>
+                icon="md-add"
+                @click="addFundInfoButton"
+                style="margin-bottom: 10px;"
+        >添加职位
+        </Button>
 
         <!-- 查询 -->
         <Row>
           <Col span="4" style="margin-right: 10px;">
-            <Select v-model="model1" clearable style="width:200px"  placeholder="工作区域">
+            <Select v-model="model1" clearable style="width:200px" placeholder="工作区域">
               <Option v-for="item in cityList" :value="item.value" :key="item.value">{{ item.label }}</Option>
             </Select>
           </Col>
@@ -31,7 +32,8 @@
               icon="md-search"
               @click="searchQuery"
               style="margin-bottom: 10px;"
-            >查询</Button>
+            >查询
+            </Button>
           </Col>
 
         </Row>
@@ -45,7 +47,7 @@
           :data="tableData"
           :columns="columns"
         ></Table>
-        <Page :total="totalPage" show-total :styles="stylePage" @on-change="changePage" />
+        <Page :total="totalPage" show-total :styles="stylePage" @on-change="changePage"/>
 
         <!--添加工作弹出框-->
         <Modal v-model="modalFundInfoAdd" title="发布工作" :mask-closable="false">
@@ -69,7 +71,7 @@
             <FormItem label="职位类型" prop="postType">
               <Select v-model="formValidateFundTypeAdd.postType">
                 <Option v-for="(item, index) in jobStyle" :key="index" v-text="item.label"
-                        :value="item.value+''">{{item.label}}
+                        :value="item.value+''">{{ item.label }}
                 </Option>
               </Select>
             </FormItem>
@@ -86,7 +88,7 @@
             </FormItem>
 
             <FormItem label="工作地区" prop="companyRegion">
-              <Select v-model="formValidateFundTypeAdd.companyRegion"  clearable>
+              <Select v-model="formValidateFundTypeAdd.companyRegion" clearable>
                 <Option v-for="item in cityList" :value="item.value" :key="item.value">{{ item.label }}</Option>
               </Select>
             </FormItem>
@@ -127,20 +129,21 @@
 </template>
 
 <script>
-import { mapActions } from "vuex";
-import { permsVerifAuthention } from "@/libs/util";
+import {mapActions} from "vuex";
+import {permsVerifAuthention} from "@/libs/util";
+
 export default {
   name: "tree_table_page",
   data() {
     return {
-      model1:"",
-      model2:"",
-      model3:"",
-      model4:"",
+      model1: "",
+      model2: "",
+      model3: "",
+      model4: "",
       cityList: [
         {value: 'beijing', label: '北京市'},
       ],
-      jobStyle:[], //工作类型
+      jobStyle: [], //工作类型
       eduTypeList: [
         {value: '0', label: '不限'},
         {value: '1', label: '初中及以下'},
@@ -177,7 +180,7 @@ export default {
         id: "",
         postName: "", //岗位名称
         postAnnualSalary: "", //年薪
-        postType:"",   //职位类型
+        postType: "",   //职位类型
         postEducation: "", //学历
         postProfile: "", //职位简介
         companyAddress: "", //详细地址
@@ -207,15 +210,15 @@ export default {
             );
           }
         },
-        { title: "岗位名称", align: "center",  key: "postName" },
-        { title: "工作区域", align: "center",  key: "companyRegion" },
-        { title: "工作地址", align: "center",  key: "companyAddress" },
+        {title: "岗位名称", align: "center", key: "postName"},
+        {title: "工作区域", align: "center", key: "companyRegion"},
+        {title: "工作地址", align: "center", key: "companyAddress"},
         {
           title: "职位类型",
           align: "center",
           key: "postType",
           render: (h, params) => {
-            if (params.row.postType ==null ) {
+            if (params.row.postType == null) {
               return h(
                 "div",
                 '不限'
@@ -228,8 +231,8 @@ export default {
             }
           }
         },
-        { title: "学历要求", align: "center",  key: "postEducation" },
-        { title: "薪资", align: "center",  key: "postAnnualSalary" },
+        {title: "学历要求", align: "center", key: "postEducation"},
+        {title: "薪资", align: "center", key: "postAnnualSalary"},
         {
           title: "操作",
           key: "handle",
@@ -308,18 +311,18 @@ export default {
         }
       ],
       //表格数据
-      tableData: [{id:"1"}],
-      baseUlr:"sys/recruitmentInformation",
+      tableData: [{id: "1"}],
+      baseUlr: "sys/recruitmentInformation",
       //添加接口
-      addUrl:"addRecruitmentInformation",
+      addUrl: "addRecruitmentInformation",
       //删除接口
-      delUrl:"deleteRecruitmentInformation",
+      delUrl: "deleteRecruitmentInformation",
       //更新
-      upUrl:"updateRecruitmentInformation",
+      upUrl: "updateRecruitmentInformation",
       // 查询列表
-      tableUrl:"findRecruitmentInformationList",
-      modalType:"",//弹窗类型 add-edit
-      editId:"",  //编辑条目的id
+      tableUrl: "findRecruitmentInformationList",
+      modalType: "",//弹窗类型 add-edit
+      editId: "",  //编辑条目的id
     };
   },
   created() {
@@ -337,14 +340,14 @@ export default {
     buttonVerifAuthention(perms) {
       return permsVerifAuthention(perms, this.$store.state.user.authentionList);
     },
-    init(){
+    init() {
       var provs = DC.getProvs();
       var _provs = [];
       for (let i = 0; i < provs.length; i++) {
         const ele = provs[i];
         let _obj = {
-          value:ele.name,
-          label:ele.name,
+          value: ele.name,
+          label: ele.name,
         }
         _provs.push(_obj);
       }
@@ -361,21 +364,21 @@ export default {
       let searchPream = {
         page: this.currentPage,
         limit: this.fetchNum,
-        searchPostType:this.model2, //职位类型
-        searchCompanyRegion:this.model1 //公司区域
+        searchPostType: this.model2, //职位类型
+        searchCompanyRegion: this.model1 //公司区域
       }
-      if(this.model1=='0'){
+      if (this.model1 == '0') {
         searchPream.searchCompanyRegion = "";
       }
-      if(this.model2=='0'){
+      if (this.model2 == '0') {
         searchPream.searchPostType = "";
       }
       //发送请求
-      this.getJobSearchTableList({ searchPream }).then(res => {
+      this.getJobSearchTableList({searchPream}).then(res => {
         this.tableData = res.data;
         this.totalPage = res.count;
         this.loading = false;
-      }).catch((e)=>{
+      }).catch((e) => {
         this.loading = false;
       });
     },
@@ -388,31 +391,44 @@ export default {
     addFundInfoButton(scope) {
       console.log("add")
       this.modalFundInfoAdd = true;
-      this.modalType = "add" ;
+      this.modalType = "add";
+      this.formValidateFundTypeAdd = {
+        id: "",
+        postName: "", //岗位名称
+        postAnnualSalary: "", //年薪
+        postType: "",   //职位类型
+        postEducation: "", //学历
+        postProfile: "", //职位简介
+        companyAddress: "", //详细地址
+        companyRegion: "", //地区
+        companyName: "", //公司名称
+        companyProfile: "", //公司简介
+        companyMailbox: "", //公司邮箱
+      }
     },
     /**
      * 添加数据提交
      */
-    addFundTypeClick(){
+    addFundTypeClick() {
       let fundType = {
-        "postName":this.formValidateFundTypeAdd.postName,//岗位名称
-        "postAnnualSalary":this.formValidateFundTypeAdd.postAnnualSalary, //年薪
-        "postType":this.formValidateFundTypeAdd.postType,
-        "postEducation":this.formValidateFundTypeAdd.postEducation,
-        "postProfile":this.formValidateFundTypeAdd.postProfile,
-        "companyAddress":this.formValidateFundTypeAdd.companyAddress,
-        "companyRegion":this.formValidateFundTypeAdd.companyRegion,
-        "companyName":this.formValidateFundTypeAdd.companyName,
-        "companyProfile":this.formValidateFundTypeAdd.companyProfile,
-        "companyMailbox":this.formValidateFundTypeAdd.companyMailbox,
+        "postName": this.formValidateFundTypeAdd.postName,//岗位名称
+        "postAnnualSalary": this.formValidateFundTypeAdd.postAnnualSalary, //年薪
+        "postType": this.formValidateFundTypeAdd.postType,
+        "postEducation": this.formValidateFundTypeAdd.postEducation,
+        "postProfile": this.formValidateFundTypeAdd.postProfile,
+        "companyAddress": this.formValidateFundTypeAdd.companyAddress,
+        "companyRegion": this.formValidateFundTypeAdd.companyRegion,
+        "companyName": this.formValidateFundTypeAdd.companyName,
+        "companyProfile": this.formValidateFundTypeAdd.companyProfile,
+        "companyMailbox": this.formValidateFundTypeAdd.companyMailbox,
       }
-      if(fundType.postType=='0'){
+      if (fundType.postType == '0') {
         fundType.postType = "";
       }
-      if(this.modalType=="add"){
+      if (this.modalType == "add") {
         this.addJobSearchType({fundType}).then(res => {
-          console.log(res,'添加返回')
-          if(res.code==200){
+          console.log(res, '添加返回')
+          if (res.code == 200) {
             this.$Message.success("添加成功!");
             this.modalFundInfoAdd = false;
             // 可以做些清空form表单的动作
@@ -421,10 +437,10 @@ export default {
           }
         });
       }
-      if(this.modalType=="edit"){
+      if (this.modalType == "edit") {
         fundType.id = this.editId;
         this.upJobSearchType({fundType}).then(res => {
-          if(res.code==200){
+          if (res.code == 200) {
             this.$Message.success("更新成功!");
             this.modalFundInfoAdd = false;
             // 可以做些清空form表单的动作
@@ -437,13 +453,13 @@ export default {
 
     //删除
     deleteFundInfoButton(scope) {
-      console.log(scope,"<<<<<<<del")
+      console.log(scope, "<<<<<<<del")
       this.$Modal.confirm({
         title: "删除",
         content: "<p>你确认要删除此条信息吗!</p>",
         onOk: () => {
           let recruitmentInformationId = scope.row.id;
-          this.deleteJobSearchById({ recruitmentInformationId }).then(res => {
+          this.deleteJobSearchById({recruitmentInformationId}).then(res => {
             this.$Message.info(res.msg);
             //刷新菜单页面
             this.queryList();
@@ -461,7 +477,7 @@ export default {
       this.formValidateFundTypeAdd.postName = scope.row.postName;
       this.formValidateFundTypeAdd.postAnnualSalary = scope.row.postAnnualSalary;
       this.formValidateFundTypeAdd.postType = scope.row.postType;
-      if(!this.formValidateFundTypeAdd.postType){
+      if (!this.formValidateFundTypeAdd.postType) {
         this.formValidateFundTypeAdd.postType = "0";
       }
       this.formValidateFundTypeAdd.postEducation = scope.row.postEducation;
@@ -481,7 +497,7 @@ export default {
       this.formValidateFundTypeAdd.postName = scope.row.postName;
       this.formValidateFundTypeAdd.postAnnualSalary = scope.row.postAnnualSalary;
       this.formValidateFundTypeAdd.postType = scope.row.postType;
-      if(!this.formValidateFundTypeAdd.postType){
+      if (!this.formValidateFundTypeAdd.postType) {
         this.formValidateFundTypeAdd.postType = "0";
       }
       this.formValidateFundTypeAdd.postEducation = scope.row.postEducation;

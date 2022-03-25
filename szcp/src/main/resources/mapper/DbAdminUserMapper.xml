@@ -29,10 +29,10 @@
         from db_admin_user dbau
         left join db_role dbr on dbr.id=dbau.role_id
         where dbau.delete_status=0
-        <if test="roleId==2">
+        <if test="roleId=='2a'">
             and dbau.superior_user_id=#{superiorUserId}
         </if>
-        <if test="roleId==3 or roleId==4  ">
+        <if test="roleId=='3a' or roleId=='4a'  ">
             and dbau.id=#{id}
         </if>
 
@@ -43,10 +43,10 @@
         from db_admin_user
         where
         delete_status=0
-        <if test="roleId==2">
+        <if test="roleId=='2a'">
             and superior_user_id=#{superiorUserId}
         </if>
-        <if test="roleId==3 or roleId==4  ">
+        <if test="roleId=='3a' or roleId=='4a' ">
             and id=#{id}
         </if>
     </select>

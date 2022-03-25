@@ -197,8 +197,8 @@ public class AdminController {
             Map map = new HashMap();
             map.put("page", (Integer.valueOf(search.get("page").toString()) - 1) * 10);
             map.put("limit", search.get("limit"));
-            map.put("roleId", adminUser.getRoleId());
-            map.put("superiorUserId", adminUser.getSuperiorUserId());
+            map.put("roleId", adminUser.getRoleId()+"a");
+            map.put("superiorUserId", adminUser.getId());
             map.put("id", adminUser.getId());
 
             resultUtil.setData(adminService.findAdminUserListByOrganId(map));
