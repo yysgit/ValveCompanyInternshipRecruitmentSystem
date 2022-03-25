@@ -33,9 +33,9 @@
                 <span>{{modelTitle}}</span>
               </p>
                 <Form ref="formValidateAdd" :model="formValidateAdd" :label-width="80">
-                  <FormItem label="用户账号" prop="adminName">
+                  <!-- <FormItem label="用户账号" prop="adminName">
                     <Input v-model="formValidateAdd.adminName" placeholder="请输入用户账号"></Input>
-                  </FormItem>
+                  </FormItem> -->
                   <FormItem label="用户姓名" prop="adminFullname">
                     <Input v-model="formValidateAdd.adminFullname" placeholder="用户姓名"></Input>
                   </FormItem>
@@ -328,14 +328,17 @@
       //添加用户表单提交
       addAdminUserClick() {
         console.log(this.formValidateAdd);
+        this.formValidateAdd.adminName = this.formValidateAdd.adminPhone;
         let _back = this.addModRules()
         if(_back){
           console.log(_back,3434)
           return false
         }else{
+          if(this.formValidateAdd.subject=='0'){
+            this.formValidateAdd.subject = "";
+          }
           this.handleSubmit('formValidateAdd');
         }
-
       },
       addModRules(){
         // adminName: '', //用户账号
@@ -347,11 +350,7 @@
         // subject:"",// 工作类型
         // roleId:"" //角色
         let _msg = "";
-        if(!this.formValidateAdd.adminName){
-          _msg = "请填写用户账号"
-          this.$Message.error(_msg);
-          return _msg;
-        }
+
         if(!this.formValidateAdd.adminFullname){
           _msg = "请填写用户姓名"
           this.$Message.error(_msg);
@@ -377,16 +376,8 @@
           this.$Message.error(_msg);
           return _msg;
         }
-        if(!this.formValidateAdd.subject){
-          _msg = "请选择工作类型"
-          this.$Message.error(_msg);
-          return _msg;
-        }
-        if(!this.formValidateAdd.roleId){
-          _msg = "请选择角色"
-          this.$Message.error(_msg);
-          return _msg;
-        }
+        
+   
         return _msg;
       },
       //表单验证提交

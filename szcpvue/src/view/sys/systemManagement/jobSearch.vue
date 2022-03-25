@@ -233,6 +233,21 @@ export default {
         },
         {title: "学历要求", align: "center", key: "postEducation"},
         {title: "薪资", align: "center", key: "postAnnualSalary"},
+        {title: "公司名称", align: "center", key: "companyName",
+          render: (h, params) => {
+            return h("div", { 
+              'class': {
+                'is-href': "1"
+              },
+              on: {
+                click: () => {
+                  this.jumpUrl(params);
+                }
+              }
+            }, params.row.companyName);
+          }
+      
+        },
         {
           title: "操作",
           key: "handle",
@@ -510,11 +525,22 @@ export default {
       this.editId = scope.row.id;
       this.modalType = "view";
     },
-
-
+    // 跳转到百度百科
+    jumpUrl(pram){
+      let _url = `https://baike.baidu.com/item/${pram.row.companyName}`
+      window.open(_url);
+    }
   }
 };
 </script>
 
-<style>
+<style lang="less">
+  .is-href{
+    cursor: pointer;
+    color: #2440b3;
+  }
+  .is-href:hover{
+    text-decoration: underline;
+  }
+  
 </style>
