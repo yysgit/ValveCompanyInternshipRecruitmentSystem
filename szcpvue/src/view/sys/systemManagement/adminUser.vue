@@ -9,10 +9,10 @@
                       style="margin-bottom: 10px;margin-right: 10px;">添加用户
               </Button>
 
-              <Button v-if="buttonVerifAuthention('sys:admin:addAdminUser')" type="primary" icon="md-add"
-                      @click="editModClick"
-                      style="margin-bottom: 10px;margin-right: 10px;">编辑
-              </Button>
+<!--              <Button v-if="buttonVerifAuthention('sys:admin:addAdminUser')" type="primary" icon="md-add"-->
+<!--                      @click="editModClick"-->
+<!--                      style="margin-bottom: 10px;margin-right: 10px;">编辑-->
+<!--              </Button>-->
 
               <!--显示全部用户-->
               <!-- <Button v-if="buttonVerifAuthention('sys:role:allList') && level!=2" type="primary"
@@ -60,13 +60,13 @@
                     </Select>
                   </FormItem>
 
-                  <FormItem label="角色" prop="roleId">
-                    <Select v-model="formValidateAdd.roleId">
-                      <Option v-for="(item, index) in roleAllList" :key="index" v-text="item.roleName"
-                              :value="item.id+''">{{item.roleName}}
-                      </Option>
-                    </Select>
-                  </FormItem>
+<!--                  <FormItem label="角色" prop="roleId">-->
+<!--                    <Select v-model="formValidateAdd.roleId">-->
+<!--                      <Option v-for="(item, index) in roleAllList" :key="index" v-text="item.roleName"-->
+<!--                              :value="item.id+''">{{item.roleName}}-->
+<!--                      </Option>-->
+<!--                    </Select>-->
+<!--                  </FormItem>-->
                 </Form>
                 <div slot="footer">
                   <Button type="text" size="large" @click="modalAddAdminUser=false">取消</Button>
@@ -127,12 +127,8 @@
         currentPage: 1,
         fetchNum: 10,
         totalPage: 0,
-        organId: 0,
-        //0表示查询机构及其子孙机构的全部用户, 1表示查询单个机构的用户
-        allOrgan: 0,
+        roleAllList:[],
 
-        organTitle: '默认机构',
-        roleAllList: [],
 
         level: this.$store.state.user.userLevel,
 
@@ -143,6 +139,7 @@
 
         //添加表单
         formValidateAdd: {
+          id:'',
           adminName: '', //用户账号
           adminFullname: '', //用户姓名（真名）
           adminPhone: '', //手机号
@@ -150,7 +147,8 @@
           education:"", // 学历
           school:"", //学校
           subject:"",// 工作类型
-          roleId:"" //角色
+          roleId:"3", //角色
+          superiorUserId: this.$store.state.user.userId,
         },
 
         //编辑表单验证
@@ -166,9 +164,9 @@
           adminPhone: [
             {required: true, message: '请输入登陆账号', trigger: 'blur'},
           ],
-          roleId: [
-            {required: true, message: '请选择角色', trigger: 'blur'},
-          ],
+          // roleId: [
+          //   {required: true, message: '请选择角色', trigger: 'blur'},
+          // ],
         },
 
         columns: [
@@ -203,7 +201,7 @@
                       },
                       on: {
                         click: () => {
-                          this.editClick(params)
+                          this.editModClick(params)
                         }
                       }
                     }, '编辑')
@@ -258,12 +256,11 @@
       //初始化菜单列表
       this.jobStyle = this.$store.state.user.jobTypeList;
       this.queryList();
-      
+
       // this.queryOrganList();
     },
     methods: {
       ...mapActions([
-        'getOrganUserTree',
         'getAdminUserList',
         'editAdminUserById',
         'getRoleAllList',
@@ -279,40 +276,20 @@
       handleMoving(e) {
         //console.log(e.atMin, e.atMax)
       },
-      //获取页面菜单列表
-      queryOrganList() {
-        this.getOrganUserTree().then(res => {
 
-          this.data1 = res.data;
-          this.loadingTable = false;
-        })
-      },
       //分页改变
       changePage(page) {
         this.currentPage = page
         this.queryList()
       },
-      //机构树被选中
-      selectChange(selectedList) {
-        if (selectedList.length > 0) {
-          this.organId = selectedList[0].id;
-          this.organTitle = selectedList[0].title;
-          this.allOrgan = 1;
-          this.queryList();
-        }
-      },
+
       //获取页面菜单列表
       queryList() {
         this.loading = true;
 
-        if (this.organId == 0) {
-          this.organId = this.$store.state.user.userOrganId;
-        }
         let searchPream = {
           page: this.currentPage,
           limit: this.fetchNum,
-          organId: this.organId,
-          allOrgan: this.allOrgan,
         }
         //发送请求
         this.getAdminUserList({searchPream}).then(res => {
@@ -337,10 +314,12 @@
         })
       },
       //编辑按钮
-      editModClick() {
+      editModClick(params) {
         //发送请求
         this.modelType = "edit";
         this.modelTitle = "编辑";//弹窗标题
+        this.formValidateAdd=params.row;
+
         this.getRoleAllList().then(res => {
           this.roleAllList = res.data;
           this.modalAddAdminUser = true;
@@ -354,11 +333,9 @@
           console.log(_back,3434)
           return false
         }else{
-          console.log("继续请求")
+          this.handleSubmit('formValidateAdd');
         }
-        return;
-        this.formValidateAdd.organId = this.organId;
-        this.handleSubmit('formValidateAdd');
+
       },
       addModRules(){
         // adminName: '', //用户账号
@@ -422,7 +399,9 @@
             //console.log(this.formValidate);
             let adminUser = this.formValidateAdd;
             this.loadingModel = true;
-            this.addAdminUser({adminUser}).then(res => {
+
+            if(this.modelType=="add"){
+              this.addAdminUser({adminUser}).then(res => {
 
                 //console.log("请求:" + res);
                 this.loadingModel = false;
@@ -432,9 +411,7 @@
                 this.formValidateAdd = {
                   adminName: '',
                   adminFullname: '',
-
                   adminPhone: '',
-                  organId: this.organId,
                   roleId: '',
                   interestRate: '',
                 },
@@ -442,7 +419,30 @@
                   this.currentPage = 1;
                 this.queryList();
 
-            })
+              })
+            }else if(this.modelType=="edit"){
+              this.editAdminUserById({adminUser}).then(res => {
+
+                //console.log("请求:" + res);
+                this.loadingModel = false;
+                this.modalAddAdminUser = false;//关闭弹窗
+                //情况表单数据
+                //表单
+                this.formValidateAdd = {
+                  adminName: '',
+                  adminFullname: '',
+                  adminPhone: '',
+                  roleId: '',
+                  interestRate: '',
+                },
+                  //刷新页面
+                  this.currentPage = 1;
+                this.queryList();
+
+              })
+            }
+
+
           } else {
             this.$Message.error('请按要求填写表单!');
           }
@@ -450,7 +450,6 @@
       },
       //显示当前机构全部用户
       queryAdminUserAllClick() {
-        this.allOrgan = 0;
         this.queryList();
       },
       //删除
@@ -491,61 +490,6 @@
             this.$Message.info('取消删除!');
           }
         });
-      },
-
-
-      //编辑点击
-      editClick(params) {
-        //发送请求
-        this.getRoleAllList().then(res => {
-
-          this.roleAllList = res.data;
-          this.formValidateEdit.id = params.row.id;
-          this.formValidateEdit.adminName = params.row.adminName;
-          this.formValidateEdit.adminFullname = params.row.adminFullname;
-          this.formValidateEdit.adminPhone = params.row.adminPhone;
-          this.formValidateEdit.organId = params.row.organId;
-          this.formValidateEdit.roleId = params.row.roleId + '';
-          this.formValidateEdit.interestRate = params.row.interestRate + '';
-          this.modalEditAdminUser = true;
-        })
-
-
-      },
-      //编辑提交
-      editAdminUserClick() {
-        this.handleSubmitEdit('formValidateEdit');
-      },
-      //表单验证提交
-      handleSubmitEdit(name) {
-        this.$refs[name].validate((valid) => {
-          if (valid) {
-            //表单提交
-            //console.log(this.formValidate);
-            let adminUser = this.formValidateEdit;
-            this.loadingModel = true;//启动提交按钮转圈
-            this.editAdminUserById({adminUser}).then(res => {
-
-                this.loadingModel = false;//关闭提交按钮转圈
-                this.modalEditAdminUser = false;//关闭弹窗
-                //情况表单数据
-                this.formValidateEdit = {
-                  id: '',
-                  adminName: '',
-                  adminFullname: '',
-                  adminPhone: '',
-                  organId: this.organId,
-                  roleId: '',
-                  interestRate: '',
-                };
-                //刷新菜单页面
-                this.queryList();
-
-            })
-          } else {
-            this.$Message.error('验证错误!');
-          }
-        })
       },
 
 

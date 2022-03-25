@@ -207,8 +207,9 @@ export default {
             );
           }
         },
-        { title: "工作区域", align: "center",  key: "companyAddress" },
-        { title: "工作地址", align: "center",  key: "companyRegion" },
+        { title: "岗位名称", align: "center",  key: "postName" },
+        { title: "工作区域", align: "center",  key: "companyRegion" },
+        { title: "工作地址", align: "center",  key: "companyAddress" },
         {
           title: "职位类型",
           align: "center",
@@ -229,8 +230,6 @@ export default {
         },
         { title: "学历要求", align: "center",  key: "postEducation" },
         { title: "薪资", align: "center",  key: "postAnnualSalary" },
-        { title: "岗位名称", align: "center",  key: "postName" },
-
         {
           title: "操作",
           key: "handle",
@@ -362,11 +361,14 @@ export default {
       let searchPream = {
         page: this.currentPage,
         limit: this.fetchNum,
-        searchPostType:this.model1, //职位类型
-        searchCompanyRegion:this.model2 //公司区域
+        searchPostType:this.model2, //职位类型
+        searchCompanyRegion:this.model1 //公司区域
       }
-      if(searchPream.searchCompanyRegion=='0'){
+      if(this.model1=='0'){
         searchPream.searchCompanyRegion = "";
+      }
+      if(this.model2=='0'){
+        searchPream.searchPostType = "";
       }
       //发送请求
       this.getJobSearchTableList({ searchPream }).then(res => {
@@ -440,8 +442,8 @@ export default {
         title: "删除",
         content: "<p>你确认要删除此条信息吗!</p>",
         onOk: () => {
-          let fundInfoId = scope.row.id;
-          this.deleteJobSearchById({ fundInfoId }).then(res => {
+          let recruitmentInformationId = scope.row.id;
+          this.deleteJobSearchById({ recruitmentInformationId }).then(res => {
             this.$Message.info(res.msg);
             //刷新菜单页面
             this.queryList();

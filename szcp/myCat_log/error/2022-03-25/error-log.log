@@ -1,0 +1,77 @@
+[ERROR] 09:01:53.891 [http-nio-7090-exec-4] c.y.szcp.controller.AdminController - 输出error级别的日志.....
+[ERROR] 09:02:01.519 [http-nio-7090-exec-5] c.y.szcp.controller.AdminController - 输出error级别的日志.....
+[ERROR] 09:11:04.041 [http-nio-7090-exec-3] c.y.s.c.RecruitmentInformationController - 添加错误: null
+[ERROR] 09:14:15.430 [http-nio-7090-exec-3] c.y.s.c.RecruitmentInformationController - 添加错误: nested exception is org.apache.ibatis.reflection.ReflectionException: There is no getter for property named 'postProfile' in 'class com.yys.szcp.entity.DbRecruitmentInformation'
+[ERROR] 09:15:51.961 [http-nio-7090-exec-4] c.y.s.c.RecruitmentInformationController - 添加错误: nested exception is org.apache.ibatis.reflection.ReflectionException: There is no getter for property named 'postProfile' in 'class com.yys.szcp.entity.DbRecruitmentInformation'
+[ERROR] 09:18:17.286 [http-nio-7090-exec-7] c.y.s.c.RecruitmentInformationController - 添加错误: nested exception is org.apache.ibatis.reflection.ReflectionException: There is no getter for property named 'postProfile' in 'class com.yys.szcp.entity.DbRecruitmentInformation'
+[ERROR] 09:28:41.424 [http-nio-7090-exec-6] c.yys.szcp.controller.MenuController - 添加错误: Invalid bound statement (not found): com.yys.szcp.mapper.DbRoleMenuMapper.deleteRoleMenuByTRoleId
+[ERROR] 09:29:30.290 [http-nio-7090-exec-10] c.yys.szcp.controller.MenuController - 添加错误: Invalid bound statement (not found): com.yys.szcp.mapper.DbRoleMenuMapper.deleteRoleMenuByTRoleId
+[ERROR] 11:45:10.572 [http-nio-7090-exec-6] com.yys.szcp.config.jwt.JwtUtils - ===== token过期 =====
+[ERROR] 11:45:11.615 [http-nio-7090-exec-8] c.y.szcp.controller.AdminController - 输出error级别的日志.....
+[ERROR] 20:14:15.289 [http-nio-7090-exec-2] com.yys.szcp.config.jwt.JwtUtils - ===== token过期 =====
+[ERROR] 20:15:47.159 [http-nio-7090-exec-5] c.y.szcp.controller.AdminController - 输出error级别的日志.....
+[ERROR] 20:38:56.815 [http-nio-7090-exec-4] c.y.szcp.controller.AdminController - 输出error级别的日志.....
+[ERROR] 20:43:06.493 [http-nio-7090-exec-1] c.y.szcp.controller.AdminController - 输出error级别的日志.....
+[ERROR] 20:49:17.900 [http-nio-7090-exec-6] c.y.szcp.controller.AdminController - 添加管理用户错误: org.springframework.dao.DataIntegrityViolationException: 
+### Error updating database.  Cause: java.sql.SQLIntegrityConstraintViolationException: Column 'admin_name' cannot be null
+### The error may involve com.yys.szcp.mapper.DbAdminUserMapper.addAdminUser-Inline
+### The error occurred while setting parameters
+### SQL: insert into db_admin_user (admin_name, admin_password, admin_fullname, admin_phone, age, role_id, create_time,                                    update_time, education, school, subject, superior_user_id)         values (?, ?, ?, ?, ?, ?, now(), now(),                 ?, ?, ?, ?);
+### Cause: java.sql.SQLIntegrityConstraintViolationException: Column 'admin_name' cannot be null
+; Column 'admin_name' cannot be null; nested exception is java.sql.SQLIntegrityConstraintViolationException: Column 'admin_name' cannot be null
+[ERROR] 21:05:47.077 [http-nio-7090-exec-3] c.y.szcp.controller.AdminController - 输出error级别的日志.....
+[ERROR] 21:06:39.099 [http-nio-7090-exec-5] c.y.s.c.e.GlobalExceptionHandler - IndexOutOfBoundsException:数组越界异常:
+java.lang.StringIndexOutOfBoundsException: String index out of range: 8
+	at java.lang.String.substring(String.java:1963)
+	at com.yys.szcp.config.jwt.JwtInterceptor.preHandle(JwtInterceptor.java:167)
+	at org.springframework.web.servlet.HandlerExecutionChain.applyPreHandle(HandlerExecutionChain.java:141)
+	at org.springframework.web.servlet.DispatcherServlet.doDispatch(DispatcherServlet.java:1035)
+	at org.springframework.web.servlet.DispatcherServlet.doService(DispatcherServlet.java:943)
+	at org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:1006)
+	at org.springframework.web.servlet.FrameworkServlet.doPost(FrameworkServlet.java:909)
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:660)
+	at org.springframework.web.servlet.FrameworkServlet.service(FrameworkServlet.java:883)
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:741)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:231)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at org.apache.catalina.core.ApplicationDispatcher.invoke(ApplicationDispatcher.java:712)
+	at org.apache.catalina.core.ApplicationDispatcher.processRequest(ApplicationDispatcher.java:461)
+	at org.apache.catalina.core.ApplicationDispatcher.doForward(ApplicationDispatcher.java:384)
+	at org.apache.catalina.core.ApplicationDispatcher.forward(ApplicationDispatcher.java:312)
+	at org.apache.catalina.core.StandardHostValve.custom(StandardHostValve.java:394)
+	at org.apache.catalina.core.StandardHostValve.status(StandardHostValve.java:253)
+	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:175)
+	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:92)
+	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:74)
+	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:343)
+	at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:367)
+	at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:65)
+	at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:860)
+	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1598)
+	at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:49)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1149)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:624)
+	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:61)
+	at java.lang.Thread.run(Thread.java:748)
+[ERROR] 21:06:39.100 [http-nio-7090-exec-5] c.y.s.c.e.GlobalExceptionHandler - Capture Exception By GlobalExceptionHandler: Code: 502 Detail: String index out of range: 8 ExceptionTyepCode: 6 ExceptionTyep: IndexOutOfBoundsException reasonString: 数组越界异常
+[ERROR] 21:11:11.316 [http-nio-7090-exec-5] c.y.szcp.controller.AdminController - 添加管理用户错误: org.springframework.dao.DataIntegrityViolationException: 
+### Error updating database.  Cause: java.sql.SQLIntegrityConstraintViolationException: Column 'admin_name' cannot be null
+### The error may involve com.yys.szcp.mapper.DbAdminUserMapper.addAdminUser-Inline
+### The error occurred while setting parameters
+### SQL: insert into db_admin_user (admin_name, admin_password, admin_fullname, admin_phone, age, role_id, create_time,                                    update_time, education, school, subject, superior_user_id)         values (?, ?, ?, ?, ?, ?, now(), now(),                 ?, ?, ?, ?);
+### Cause: java.sql.SQLIntegrityConstraintViolationException: Column 'admin_name' cannot be null
+; Column 'admin_name' cannot be null; nested exception is java.sql.SQLIntegrityConstraintViolationException: Column 'admin_name' cannot be null
+[ERROR] 21:12:34.185 [http-nio-7090-exec-3] c.y.szcp.controller.AdminController - 添加管理用户错误: org.springframework.dao.DataIntegrityViolationException: 
+### Error updating database.  Cause: java.sql.SQLIntegrityConstraintViolationException: Column 'admin_name' cannot be null
+### The error may involve com.yys.szcp.mapper.DbAdminUserMapper.addAdminUser-Inline
+### The error occurred while setting parameters
+### SQL: insert into db_admin_user (admin_name, admin_password, admin_fullname, admin_phone, age, role_id, create_time,                                    update_time, education, school, subject, superior_user_id)         values (?, ?, ?, ?, ?, ?, now(), now(),                 ?, ?, ?, ?);
+### Cause: java.sql.SQLIntegrityConstraintViolationException: Column 'admin_name' cannot be null
+; Column 'admin_name' cannot be null; nested exception is java.sql.SQLIntegrityConstraintViolationException: Column 'admin_name' cannot be null
+[ERROR] 21:31:26.310 [http-nio-7090-exec-2] c.y.szcp.controller.AdminController - 更新管理用户错误: org.springframework.dao.DataIntegrityViolationException: 
+### Error updating database.  Cause: java.sql.SQLIntegrityConstraintViolationException: Column 'admin_name' cannot be null
+### The error may involve com.yys.szcp.mapper.DbAdminUserMapper.updateAdminUser-Inline
+### The error occurred while setting parameters
+### SQL: update db_admin_user         set update_time    =now()           , admin_name     = ?           , admin_fullname = ?           , admin_phone    = ?           , role_id        = ?           , age        = ?           , education        = ?           , school        = ?           , subject        = ?           , superior_user_id  = ?         where id = ?
+### Cause: java.sql.SQLIntegrityConstraintViolationException: Column 'admin_name' cannot be null
+; Column 'admin_name' cannot be null; nested exception is java.sql.SQLIntegrityConstraintViolationException: Column 'admin_name' cannot be null

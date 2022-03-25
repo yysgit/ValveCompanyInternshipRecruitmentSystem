@@ -155,9 +155,9 @@ public class AdminController {
             //封装数据
             Map adminUser1 = (Map) JSONUtils.parse(adminUser);
             DbAdminUser adminUserMy = new DbAdminUser();
-            adminUserMy.setAdminName(StringISNULLUtil.mapToString(adminUser1.get("username")));
-            adminUserMy.setAdminFullname(StringISNULLUtil.mapToString(adminUser1.get("fullname")));
-            adminUserMy.setAdminPhone(StringISNULLUtil.mapToString(adminUser1.get("phone")));
+            adminUserMy.setAdminName(StringISNULLUtil.mapToString(adminUser1.get("adminPhone")));
+            adminUserMy.setAdminFullname(StringISNULLUtil.mapToString(adminUser1.get("adminFullname")));
+            adminUserMy.setAdminPhone(StringISNULLUtil.mapToString(adminUser1.get("adminPhone")));
             adminUserMy.setRoleId(StringISNULLUtil.mapToInteger(adminUser1.get("roleId")));
             adminUserMy.setAdminPassword(MD5.MD5Pwd(adminUserMy.getAdminName(), "888888"));
             adminUserMy.setAge(StringISNULLUtil.mapToString(adminUser1.get("age")));
@@ -186,9 +186,9 @@ public class AdminController {
      * @param request
      * @return
      */
-    @RequestMapping("/findAdminUserListByOrganId")
+    @RequestMapping("/findAdminUserList")
     @ResponseBody
-    public ResultUtil findAdminUserListByOrganId(HttpServletRequest request, String searchPream) {
+    public ResultUtil findAdminUserList(HttpServletRequest request, String searchPream) {
         try {
             ResultUtil resultUtil = new ResultUtil();
             //封装数据
@@ -228,11 +228,12 @@ public class AdminController {
             //封装数据
             Map adminUser1 = (Map) JSONUtils.parse(adminUser);
             DbAdminUser adminUserMy = new DbAdminUser();
-            adminUserMy.setAdminName(StringISNULLUtil.mapToString(adminUser1.get("username")));
-            adminUserMy.setAdminFullname(StringISNULLUtil.mapToString(adminUser1.get("fullname")));
-            adminUserMy.setAdminPhone(StringISNULLUtil.mapToString(adminUser1.get("phone")));
-            adminUserMy.setRoleId(StringISNULLUtil.mapToInteger(adminUser1.get("roleId")));
             adminUserMy.setId(StringISNULLUtil.mapToInteger(adminUser1.get("id")));
+
+            adminUserMy.setAdminName(StringISNULLUtil.mapToString(adminUser1.get("adminPhone")));
+            adminUserMy.setAdminFullname(StringISNULLUtil.mapToString(adminUser1.get("adminFullname")));
+            adminUserMy.setAdminPhone(StringISNULLUtil.mapToString(adminUser1.get("adminPhone")));
+            adminUserMy.setRoleId(StringISNULLUtil.mapToInteger(adminUser1.get("roleId")));
             adminUserMy.setAge(StringISNULLUtil.mapToString(adminUser1.get("age")));
             adminUserMy.setEducation(StringISNULLUtil.mapToString(adminUser1.get("education")));
             adminUserMy.setSchool(StringISNULLUtil.mapToString(adminUser1.get("school")));

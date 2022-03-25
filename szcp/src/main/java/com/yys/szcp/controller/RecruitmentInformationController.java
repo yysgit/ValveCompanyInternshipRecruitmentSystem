@@ -66,10 +66,10 @@ public class RecruitmentInformationController {
      */
     @RequestMapping("deleteRecruitmentInformation")
     @ResponseBody
-    public ResultUtil deleteRecruitmentInformation(HttpServletRequest request, Integer RecruitmentInformationId) {
+    public ResultUtil deleteRecruitmentInformation(HttpServletRequest request, Integer recruitmentInformationId) {
         try {
             DbRecruitmentInformation RecruitmentInformationMy = new DbRecruitmentInformation();
-            RecruitmentInformationMy.setId(RecruitmentInformationId);
+            RecruitmentInformationMy.setId(recruitmentInformationId);
             RecruitmentInformationMy.setDeleteStatus(1);
             recruitmentInformationService.deleteRecruitmentInformation(RecruitmentInformationMy);
             return ResultUtil.success("删除成功!");

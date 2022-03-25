@@ -5,7 +5,7 @@ import {
     deleteJobSearchById
   } from '@/api/jobSearch'
   import { setToken, getToken } from '@/libs/util'
-  
+
   export default {
     state: {
       token: getToken()
@@ -17,7 +17,7 @@ import {
       }
     },
     getters: {
-  
+
     },
     actions: {
       //提交表单
@@ -50,8 +50,8 @@ import {
             reject(error)
           }
         })
-      },		
-      
+      },
+
 			//获取列表
 			getJobSearchTableList({ state, commit }, { searchPream }) {
 				return new Promise((resolve, reject) => {
@@ -66,7 +66,7 @@ import {
 						reject(error)
 						}
 				})
-			},  
+			},
 
 
           //提交表单
@@ -85,10 +85,10 @@ import {
         })
       },
 			// 删除
-      deleteJobSearchById({ state, commit }, { fundInfoId }) {
+      deleteJobSearchById({ state, commit }, { recruitmentInformationId }) {
         return new Promise((resolve, reject) => {
           try {
-            deleteJobSearchById(state.token, fundInfoId).then(res => {
+            deleteJobSearchById(state.token, recruitmentInformationId).then(res => {
               const data = res.data;
               resolve(data)
             }).catch(err => {
@@ -102,4 +102,3 @@ import {
 
     }
   }
-  

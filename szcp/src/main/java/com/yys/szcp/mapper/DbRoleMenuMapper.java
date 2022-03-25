@@ -27,5 +27,5 @@ public interface DbRoleMenuMapper {
      * @param roleId
      * @return
      */
-    int deleteRoleMenuByTRoleId(Integer roleId);
+    int deleteRoleMenuByRoleId(Integer roleId);
 }

@@ -52,12 +52,12 @@ export const getJobSearchTableList = (token,searchPream) => {
  * @param {*} fundInfo
  * @returns
  */
-export const deleteJobSearchById= (token,fundInfoId) => {
+export const deleteJobSearchById= (token,recruitmentInformationId) => {
   return axios.request({
     url: 'sys/recruitmentInformation/deleteRecruitmentInformation',
     params: {
       token,
-      fundInfoId
+      recruitmentInformationId
     },
     method: 'post'
   })

@@ -210,7 +210,7 @@ export const getHomeData= (token) => {
 
 export const getAdminUserList= (token,searchPream) => {
   return axios.request({
-    url: '/sys/admin/findAdminUserListByOrganId',
+    url: '/sys/admin/findAdminUserList',
     params: {
       token,
       searchPream
